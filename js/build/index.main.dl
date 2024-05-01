@@ -1,0 +1,1590 @@
+#lang dl
+parts {
+  "Admin" = interact {
+    intiConfig = IT_Val Object({"ADMIN": Address, "comment": Bytes(200), "configuration": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "loanTerms_info": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])})
+    },
+  "Admin_api_acceptOffer" = interact {
+    in = IT_Fun [] Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})),
+    out = IT_Fun [Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})),Null] Null
+    },
+  "Admin_api_cancelLoanOfferandWithdrawCollateral" = interact {
+    in = IT_Fun [] Tuple(UInt),
+    out = IT_Fun [Tuple(UInt),Null] Null
+    },
+  "Admin_api_freeze" = interact {
+    in = IT_Fun [] Tuple(Bool),
+    out = IT_Fun [Tuple(Bool),Null] Null
+    },
+  "Admin_api_updateConfig" = interact {
+    in = IT_Fun [] Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])),
+    out = IT_Fun [Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])),Null] Null
+    },
+  "Admin_api_updateLoanTerms_info" = interact {
+    in = IT_Fun [] Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])),
+    out = IT_Fun [Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])),Null] Null
+    },
+  "user_acceptLoan" = interact {
+    in = IT_Fun [] Tuple(),
+    out = IT_Fun [Tuple(),Null] Null
+    },
+  "user_makeOffer" = interact {
+    in = IT_Fun [] Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool})),
+    out = IT_Fun [Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool})),Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})] Null
+    }
+  };
+
+{
+  maps = {
+    map0 = Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})
+    }
+  }
+{
+  
+  }
+{
+  Just "info" = {
+    config = (IT_Val Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), []),
+    loanTerms = (IT_Val Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), []),
+    offer = (IT_Fun [UInt] Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}), [])
+    }
+  }
+{
+  Just "Admin_api" = {
+    acceptOffer = ("Admin_api_acceptOffer", IT_Fun [Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})] Null),
+    cancelLoanOfferandWithdrawCollateral = ("Admin_api_cancelLoanOfferandWithdrawCollateral", IT_Fun [UInt] Null),
+    freeze = ("Admin_api_freeze", IT_Fun [Bool] Null),
+    updateConfig = ("Admin_api_updateConfig", IT_Fun [Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])] Null),
+    updateLoanTerms_info = ("Admin_api_updateLoanTerms_info", IT_Fun [Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])] Null)
+    },
+  Just "user" = {
+    acceptLoan = ("user_acceptLoan", IT_Fun [] Null),
+    makeOffer = ("user_makeOffer", IT_Fun [Object({"amount": UInt, "shouldPayWithNetworkToken": Bool})] Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}))
+    }
+  }
+{
+  Admin_api_acceptOffer = Nothing,
+  Admin_api_cancelLoanOfferandWithdrawCollateral = Nothing,
+  Admin_api_freeze = Nothing,
+  Admin_api_updateConfig = Nothing,
+  Admin_api_updateLoanTerms_info = Nothing,
+  user_acceptLoan = Nothing,
+  user_makeOffer = Nothing
+  }
+{
+  
+  }
+const v5 : Object({"i": UInt, "sign": Bool}) = {
+  i = 0,
+  sign = true};
+const v7 : Object({"i": UInt, "sign": Bool}) = {
+  i = 0,
+  sign = true};
+only("Admin") {
+  {
+    const intiConfig/20 : Object({"ADMIN": Address, "comment": Bytes(200), "configuration": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "loanTerms_info": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])}) = "Admin".interact.intiConfig;
+    const v21 : Address = intiConfig/20.ADMIN;
+    const v22 : Bytes(200) = intiConfig/20.comment;
+    const v23 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = intiConfig/20.configuration;
+    const v24 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = intiConfig/20.loanTerms_info;
+    const v25 : Token = v23.token;
+    const v26 : UInt = v23.number_of_tokens_to_deposit;
+    const v27 : Token = v23.paymentAsset;
+    const v28 : Bool = v23.shouldPayInOnlyNetworkToken;
+    const v29 : Bool = v23.prefersNetworkToken;
+    const v30 : UInt = v24.duration_in_blocks;
+    const v31 : UInt = v24.principle;
+    const v32 : Token = v24.interest; } };
+only("Admin_api_acceptOffer") {
+  {
+     } };
+only("Admin_api_cancelLoanOfferandWithdrawCollateral") {
+  {
+     } };
+only("Admin_api_freeze") {
+  {
+     } };
+only("Admin_api_updateConfig") {
+  {
+     } };
+only("Admin_api_updateLoanTerms_info") {
+  {
+     } };
+only("user_acceptLoan") {
+  {
+     } };
+only("user_makeOffer") {
+  {
+     } };
+fluid netBalance := 0
+only("Admin") {
+  {
+    const v35 : Address = selfAddress("Admin", False, 34 )();
+    prompt(v36 : Null {pure local}) {
+      const config/37 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = intiConfig/20.configuration;
+      const v38 : UInt = config/37.number_of_tokens_to_deposit;
+      const v39 : Token = config/37.paymentAsset;
+      const v40 : Bool = config/37.prefersNetworkToken;
+      const v41 : Bool = config/37.shouldPayInOnlyNetworkToken;
+      const deposit_nft/42 : Token = config/37.token;
+      const loanTerms/43 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = intiConfig/20.loanTerms_info;
+      const ADMIN_WALLET/44 : Address = intiConfig/20.ADMIN;
+      throw(null).to(36); }; } };
+only("Admin") {
+  {
+    const v45 : Object({"number_of_tokens_to_deposit": UInt, "paymentAsset": Token, "prefersNetworkToken": Bool, "shouldPayInOnlyNetworkToken": Bool, "token": Token}) = {
+      number_of_tokens_to_deposit = v38,
+      paymentAsset = v39,
+      prefersNetworkToken = v40,
+      shouldPayInOnlyNetworkToken = v41,
+      token = deposit_nft/42}; } };
+publish(@?)
+  .case("Admin").send({
+    isClass = False,
+    msg = [v45, deposit_nft/42, config/37, loanTerms/43, ADMIN_WALLET/44],
+    pay = [0, ],
+    when = true
+    })
+  .recv({
+    didSend = didPublish/54 : Bool,
+    from = Admin/46 : Address,
+    msg = [config_as_object/47 : Object({"number_of_tokens_to_deposit": UInt, "paymentAsset": Token, "prefersNetworkToken": Bool, "shouldPayInOnlyNetworkToken": Bool, "token": Token}), deposit_nft/48 : Token, config/49 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), loanTerms/50 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), ADMIN_WALLET/51 : Address],
+    secs = thisConsensusSecs/53 : UInt,
+    time = thisConsensusTime/52 : UInt
+    }){
+    tokenMetaSet(TM_Balance, deposit_nft/48, 0, Just 0, True)
+    tokenInit(deposit_nft/48);
+    checkPay(0, None);
+    fluid thisConsensusTime := thisConsensusTime/52
+    fluid thisConsensusSecs := thisConsensusSecs/53
+    fluid didPublish := didPublish/54
+    const paymentToken/55 : Token = config_as_object/47.paymentAsset;
+    commit();
+    only("Admin") {
+      {
+        const v56 : UInt = config_as_object/47.number_of_tokens_to_deposit; } };
+    publish(@?)
+      .case("Admin").send({
+        isClass = False,
+        msg = [],
+        pay = [0, (v56, deposit_nft/48 ) ],
+        when = true
+        })
+      .recv({
+        didSend = didPublish/64 : Bool,
+        from = Admin/57 : Address,
+        msg = [],
+        secs = thisConsensusSecs/63 : UInt,
+        time = thisConsensusTime/62 : UInt
+        }){
+        const v58 : UInt = config_as_object/47.number_of_tokens_to_deposit;
+        checkPay(0, None);
+        tokenMetaGet(TM_Balance, v59 : UInt, deposit_nft/48, Just 0)
+        const v60 : UInt = v59 + v58;
+        tokenMetaSet(TM_Balance, deposit_nft/48, v60, Just 0, False)
+        checkPay(v58, Some deposit_nft/48);
+        const v61 : Bool = Admin/46 == Admin/57;
+        claim(CT_Require)(v61, Just "sender correct");
+        fluid thisConsensusTime := thisConsensusTime/62
+        fluid thisConsensusSecs := thisConsensusSecs/63
+        fluid didPublish := didPublish/64
+        const v65 : Token = config/49.token;
+        const v66 : UInt = config/49.number_of_tokens_to_deposit;
+        const v67 : Token = config/49.paymentAsset;
+        const v68 : Bool = config/49.shouldPayInOnlyNetworkToken;
+        const v69 : Bool = config/49.prefersNetworkToken;
+        view(Just "info").config.is(Just export (Nothing) => {
+        return config/49;})
+        const v80 : Data({"None": Null, "Some": Address}) = <None null>;
+        const v81 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+          acceptedAddress = v80,
+          config = config/49,
+          continue = true,
+          freeze = false,
+          loanTerms = loanTerms/50,
+          loanTermsAccepted = false,
+          offers = 0};
+        loopvar {
+          returnExpression/79 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = v81
+          };
+        invariant{
+          [invariant(const v83 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+          const v84 : Token = v83.token;
+          const v85 : UInt = v83.number_of_tokens_to_deposit;
+          const v86 : Token = v83.paymentAsset;
+          const v87 : Bool = v83.shouldPayInOnlyNetworkToken;
+          const v88 : Bool = v83.prefersNetworkToken;
+          view(Just "info").config.is(Just export (Nothing) => {
+          return v83;})
+          const v89 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+          const v90 : UInt = v89.duration_in_blocks;
+          const v91 : UInt = v89.principle;
+          const v92 : Token = v89.interest;
+          view(Just "info").loanTerms.is(Just export (Nothing) => {
+          return v89;})
+          view(Just "info").offer.is(Just export (Just [v93 : UInt*]) => {const v95 : Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}) = map0[res/93];
+          return v95;})
+          netBalance/96 : UInt <- fluid netBalance
+          const v97 : Bool = netBalance/96 == 0;
+          return v97;, Nothing)] }
+        while{
+          const v99 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+          const v100 : Token = v99.token;
+          const v101 : UInt = v99.number_of_tokens_to_deposit;
+          const v102 : Token = v99.paymentAsset;
+          const v103 : Bool = v99.shouldPayInOnlyNetworkToken;
+          const v104 : Bool = v99.prefersNetworkToken;
+          view(Just "info").config.is(Just export (Nothing) => {
+          return v99;})
+          const v105 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+          const v106 : UInt = v105.duration_in_blocks;
+          const v107 : UInt = v105.principle;
+          const v108 : Token = v105.interest;
+          view(Just "info").loanTerms.is(Just export (Nothing) => {
+          return v105;})
+          view(Just "info").offer.is(Just export (Just [v109 : UInt*]) => {const v111 : Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}) = map0[res/109];
+          return v111;})
+          const v112 : Bool = returnExpression/79.continue;
+          return v112; }
+        {
+          const v113 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+          const v114 : Token = v113.token;
+          const v115 : UInt = v113.number_of_tokens_to_deposit;
+          const v116 : Token = v113.paymentAsset;
+          const v117 : Bool = v113.shouldPayInOnlyNetworkToken;
+          const v118 : Bool = v113.prefersNetworkToken;
+          view(Just "info").config.is(Just export (Nothing) => {
+          return v113;})
+          const v119 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+          const v120 : UInt = v119.duration_in_blocks;
+          const v121 : UInt = v119.principle;
+          const v122 : Token = v119.interest;
+          view(Just "info").loanTerms.is(Just export (Nothing) => {
+          return v119;})
+          view(Just "info").offer.is(Just export (Just [v123 : UInt*]) => {const v125 : Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}) = map0[res/123];
+          return v125;})
+          commit();
+          only("Admin_api_updateConfig") {
+            {
+              const this/525 : Address = selfAddress("Admin_api_updateConfig", True, 524 )();
+              prompt(v526 : Null {impure local}) {
+                const .api72.dom/529 : Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])) = protect<Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]))>("Admin_api_updateConfig".interact.in());
+                const v530 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = .api72.dom/529[0];
+                const v531 : Token = v530.token;
+                const v532 : UInt = v530.number_of_tokens_to_deposit;
+                const v533 : Token = v530.paymentAsset;
+                const v534 : Bool = v530.shouldPayInOnlyNetworkToken;
+                const v535 : Bool = v530.prefersNetworkToken;
+                const local_config/536 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = .api72.dom/529[0];
+                const v537 : Bool = this/525 == Admin/46;
+                const v538 : Bool = ADMIN_WALLET/51 == this/525;
+                const v539 : Bool = (v537 ? true : v538);
+                prompt(v540 : Null {impure local}) {
+                  claim(CT_Assume)(v539, Just "The current user trying to access this interface is not Admin");
+                  throw(null).to(540); };
+                const x/555 : Bool = returnExpression/79.loanTermsAccepted;
+                const v557 : Bool = (x/555 ? false : true);
+                prompt(v558 : Null {impure local}) {
+                  claim(CT_Assume)(v557, Just "Cannot update config after Loan terms accepted");
+                  throw(null).to(558); };
+                const _/573 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = .api72.dom/529[0];
+                prompt(v574 : Null {pure local}) {
+                  throw(null).to(574); };
+                const v575 : Object({"msg": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]))}) = {
+                  msg = .api72.dom/529};
+                const v576 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = msg/529[0];
+                const v577 : Token = v576.token;
+                const v578 : UInt = v576.number_of_tokens_to_deposit;
+                const v579 : Token = v576.paymentAsset;
+                const v580 : Bool = v576.shouldPayInOnlyNetworkToken;
+                const v581 : Bool = v576.prefersNetworkToken;
+                const v582 : Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}) = <Admin_api_updateConfig0_127 null>;
+                const v583 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_updateConfig0_126 msg/529>;
+                const v584 : Object({"_local": Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}), "msg": Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}), "when": Bool}) = {
+                  _local = v582,
+                  msg = v583,
+                  when = true};
+                throw(null).to(526); }; } };
+          only("Admin_api_freeze") {
+            {
+              const this/586 : Address = selfAddress("Admin_api_freeze", True, 585 )();
+              prompt(v587 : Null {impure local}) {
+                const .api73.dom/590 : Tuple(Bool) = protect<Tuple(Bool)>("Admin_api_freeze".interact.in());
+                const v591 : Bool = .api73.dom/590[0];
+                const toggle/592 : Bool = .api73.dom/590[0];
+                const v593 : Bool = this/586 == Admin/46;
+                const v594 : Bool = ADMIN_WALLET/51 == this/586;
+                const v595 : Bool = (v593 ? true : v594);
+                prompt(v596 : Null {impure local}) {
+                  claim(CT_Assume)(v595, Just "The current user trying to access this interface is not Admin");
+                  throw(null).to(596); };
+                const x/611 : Bool = returnExpression/79.loanTermsAccepted;
+                const v613 : Bool = (x/611 ? false : true);
+                prompt(v614 : Null {impure local}) {
+                  claim(CT_Assume)(v613, Just "Cannot update config after Loan terms accepted");
+                  throw(null).to(614); };
+                const v629 : Bool = returnExpression/79.freeze;
+                const v630 : Bool = (v629 ? false : true);
+                const x/631 : Bool = (toggle/592 ? v629 : v630);
+                const v633 : Bool = (x/631 ? false : true);
+                prompt(v634 : Null {impure local}) {
+                  claim(CT_Assume)(v633, Just "The action you are trying to perform has already been done");
+                  throw(null).to(634); };
+                const _/649 : Bool = .api73.dom/590[0];
+                prompt(v650 : Null {pure local}) {
+                  throw(null).to(650); };
+                const v651 : Object({"msg": Tuple(Bool)}) = {
+                  msg = .api73.dom/590};
+                const v652 : Bool = msg/590[0];
+                const v653 : Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}) = <Admin_api_freeze0_127 null>;
+                const v654 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_freeze0_126 msg/590>;
+                const v655 : Object({"_local": Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}), "msg": Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}), "when": Bool}) = {
+                  _local = v653,
+                  msg = v654,
+                  when = true};
+                throw(null).to(587); }; } };
+          only("Admin_api_updateLoanTerms_info") {
+            {
+              const this/657 : Address = selfAddress("Admin_api_updateLoanTerms_info", True, 656 )();
+              prompt(v658 : Null {impure local}) {
+                const .api74.dom/661 : Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])) = protect<Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]))>("Admin_api_updateLoanTerms_info".interact.in());
+                const v662 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = .api74.dom/661[0];
+                const v663 : UInt = v662.duration_in_blocks;
+                const v664 : UInt = v662.principle;
+                const v665 : Token = v662.interest;
+                const local_config/666 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = .api74.dom/661[0];
+                const v667 : Bool = this/657 == Admin/46;
+                const v668 : Bool = ADMIN_WALLET/51 == this/657;
+                const v669 : Bool = (v667 ? true : v668);
+                prompt(v670 : Null {impure local}) {
+                  claim(CT_Assume)(v669, Just "The current user trying to access this interface is not Admin");
+                  throw(null).to(670); };
+                const x/685 : Bool = returnExpression/79.loanTermsAccepted;
+                const v687 : Bool = (x/685 ? false : true);
+                prompt(v688 : Null {impure local}) {
+                  claim(CT_Assume)(v687, Just "Cannot update loan terms after Loan terms accepted");
+                  throw(null).to(688); };
+                const _/703 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = .api74.dom/661[0];
+                prompt(v704 : Null {pure local}) {
+                  throw(null).to(704); };
+                const v705 : Object({"msg": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]))}) = {
+                  msg = .api74.dom/661};
+                const v706 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = msg/661[0];
+                const v707 : UInt = v706.duration_in_blocks;
+                const v708 : UInt = v706.principle;
+                const v709 : Token = v706.interest;
+                const v710 : Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}) = <Admin_api_updateLoanTerms_info0_127 null>;
+                const v711 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_updateLoanTerms_info0_126 msg/661>;
+                const v712 : Object({"_local": Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}), "msg": Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}), "when": Bool}) = {
+                  _local = v710,
+                  msg = v711,
+                  when = true};
+                throw(null).to(658); }; } };
+          only("Admin_api_cancelLoanOfferandWithdrawCollateral") {
+            {
+              const this/714 : Address = selfAddress("Admin_api_cancelLoanOfferandWithdrawCollateral", True, 713 )();
+              prompt(v715 : Null {impure local}) {
+                const .api75.dom/718 : Tuple(UInt) = protect<Tuple(UInt)>("Admin_api_cancelLoanOfferandWithdrawCollateral".interact.in());
+                const v719 : UInt = .api75.dom/718[0];
+                const local_config/720 : UInt = .api75.dom/718[0];
+                const v721 : Bool = this/714 == Admin/46;
+                const v722 : Bool = ADMIN_WALLET/51 == this/714;
+                const v723 : Bool = (v721 ? true : v722);
+                prompt(v724 : Null {impure local}) {
+                  claim(CT_Assume)(v723, Just "The current user trying to access this interface is not Admin");
+                  throw(null).to(724); };
+                const x/739 : Bool = returnExpression/79.loanTermsAccepted;
+                const v741 : Bool = (x/739 ? false : true);
+                prompt(v742 : Null {impure local}) {
+                  claim(CT_Assume)(v741, Just "Cannot cancel loan or withdraw collateral when loan terms have been accepted");
+                  throw(null).to(742); };
+                prompt(v757 : Null {impure local}) {
+                  const v758 : Bool = returnExpression/79.freeze;
+                  const v759 : Bool = (v758 ? true : false);
+                  prompt(v760 : Null {impure local}) {
+                    claim(CT_Assume)(v759, Just "Contract is frozen");
+                    throw(null).to(760); };
+                  throw(null).to(757); };
+                const _/775 : UInt = .api75.dom/718[0];
+                prompt(v776 : Null {pure local}) {
+                  throw(null).to(776); };
+                const v777 : Object({"msg": Tuple(UInt)}) = {
+                  msg = .api75.dom/718};
+                const v778 : UInt = msg/718[0];
+                const v779 : Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}) = <Admin_api_cancelLoanOfferandWithdrawCollateral0_127 null>;
+                const v780 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_cancelLoanOfferandWithdrawCollateral0_126 msg/718>;
+                const v781 : Object({"_local": Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}), "msg": Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}), "when": Bool}) = {
+                  _local = v779,
+                  msg = v780,
+                  when = true};
+                throw(null).to(715); }; } };
+          only("Admin_api_acceptOffer") {
+            {
+              const this/783 : Address = selfAddress("Admin_api_acceptOffer", True, 782 )();
+              prompt(v784 : Null {impure local}) {
+                const .api76.dom/787 : Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})) = protect<Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}))>("Admin_api_acceptOffer".interact.in());
+                const v788 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = .api76.dom/787[0];
+                const v789 : UInt = v788.amount;
+                const v790 : Address = v788.borrower;
+                const v791 : UInt = v788.offerId;
+                const v792 : Bool = v788.rejected;
+                const loanOffer/793 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = .api76.dom/787[0];
+                const v794 : Bool = this/783 == Admin/46;
+                const v795 : Bool = ADMIN_WALLET/51 == this/783;
+                const v796 : Bool = (v794 ? true : v795);
+                prompt(v797 : Null {impure local}) {
+                  claim(CT_Assume)(v796, Just "The current user trying to access this interface is not Admin");
+                  throw(null).to(797); };
+                const x/812 : Bool = returnExpression/79.loanTermsAccepted;
+                const v814 : Bool = (x/812 ? false : true);
+                prompt(v815 : Null {impure local}) {
+                  claim(CT_Assume)(v814, Just "An offer has already been accepted");
+                  throw(null).to(815); };
+                prompt(v830 : Null {impure local}) {
+                  const v831 : Bool = returnExpression/79.freeze;
+                  const v832 : Bool = (v831 ? true : false);
+                  prompt(v833 : Null {impure local}) {
+                    claim(CT_Assume)(v832, Just "Contract is frozen");
+                    throw(null).to(833); };
+                  throw(null).to(830); };
+                const v848 : UInt = loanOffer/793.amount;
+                const v849 : Address = loanOffer/793.borrower;
+                const v850 : UInt = loanOffer/793.offerId;
+                const v851 : Bool = loanOffer/793.rejected;
+                const m/852 : Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}) = map0[v850];
+                const v854 : UInt = dataTag(m/852);
+                const v855 : Bool = v854 == 1;
+                prompt(v856 : Null {impure local}) {
+                  claim(CT_Assume)(v855, Just "Offer id doesn't exist");
+                  throw(null).to(856); };
+                const _/871 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = .api76.dom/787[0];
+                prompt(v872 : Null {pure local}) {
+                  throw(null).to(872); };
+                const v873 : Object({"msg": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}))}) = {
+                  msg = .api76.dom/787};
+                const v874 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = msg/787[0];
+                const v875 : UInt = v874.amount;
+                const v876 : Address = v874.borrower;
+                const v877 : UInt = v874.offerId;
+                const v878 : Bool = v874.rejected;
+                const v879 : Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}) = <Admin_api_acceptOffer0_127 null>;
+                const v880 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_acceptOffer0_126 msg/787>;
+                const v881 : Object({"_local": Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}), "msg": Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}), "when": Bool}) = {
+                  _local = v879,
+                  msg = v880,
+                  when = true};
+                throw(null).to(784); }; } };
+          only("user_acceptLoan") {
+            {
+              const v883 : Address = selfAddress("user_acceptLoan", True, 882 )();
+              prompt(v884 : Null {impure local}) {
+                const .api77.dom/887 : Tuple() = protect<Tuple()>("user_acceptLoan".interact.in());
+                prompt(v888 : Null {impure local}) {
+                  const v889 : Bool = returnExpression/79.freeze;
+                  const v890 : Bool = (v889 ? true : false);
+                  prompt(v891 : Null {impure local}) {
+                    claim(CT_Assume)(v890, Just "Contract is frozen");
+                    throw(null).to(891); };
+                  throw(null).to(888); };
+                const acceptedAmount/906 : UInt = config_as_object/47.number_of_tokens_to_deposit;
+                const x/907 : Bool = returnExpression/79.loanTermsAccepted;
+                const v909 : Bool = (x/907 ? false : true);
+                prompt(v910 : Null {impure local}) {
+                  claim(CT_Assume)(v909, Just "Offer already accepted");
+                  throw(null).to(910); };
+                const v925 : Bool = config_as_object/47.prefersNetworkToken;
+                const v926 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                const v927 : Tuple(UInt, Tuple(UInt, Token)) = [acceptedAmount/906, v926 ];
+                const v928 : Tuple(UInt, Token) = [acceptedAmount/906, paymentToken/55 ];
+                const v929 : Tuple(UInt, Tuple(UInt, Token)) = [0, v928 ];
+                const transferData/930 : Tuple(UInt, Tuple(UInt, Token)) = (v925 ? v927 : v929);
+                prompt(v931 : Null {pure local}) {
+                  throw(null).to(931); };
+                const v932 : Object({"msg": Tuple()}) = {
+                  msg = .api77.dom/887};
+                const v933 : Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}) = <user_acceptLoan0_127 null>;
+                const v934 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <user_acceptLoan0_126 msg/887>;
+                const v935 : Object({"_local": Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}), "msg": Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}), "when": Bool}) = {
+                  _local = v933,
+                  msg = v934,
+                  when = true};
+                throw(null).to(884); }; } };
+          only("user_makeOffer") {
+            {
+              const v937 : Address = selfAddress("user_makeOffer", True, 936 )();
+              prompt(v938 : Null {impure local}) {
+                const .api78.dom/941 : Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool})) = protect<Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))>("user_makeOffer".interact.in());
+                const v942 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = .api78.dom/941[0];
+                const v943 : UInt = v942.amount;
+                const v944 : Bool = v942.shouldPayWithNetworkToken;
+                const v945 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = .api78.dom/941[0];
+                const amount/946 : UInt = v945.amount;
+                const shouldPayWithNetworkToken/947 : Bool = v945.shouldPayWithNetworkToken;
+                prompt(v948 : Null {impure local}) {
+                  const v949 : Bool = returnExpression/79.freeze;
+                  const v950 : Bool = (v949 ? true : false);
+                  prompt(v951 : Null {impure local}) {
+                    claim(CT_Assume)(v950, Just "Contract is frozen");
+                    throw(null).to(951); };
+                  throw(null).to(948); };
+                const _/966 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = .api78.dom/941[0];
+                prompt(v967 : Null {pure local}) {
+                  throw(null).to(967); };
+                const v968 : Object({"msg": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = {
+                  msg = .api78.dom/941};
+                const v969 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = msg/941[0];
+                const v970 : UInt = v969.amount;
+                const v971 : Bool = v969.shouldPayWithNetworkToken;
+                const v972 : Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}) = <user_makeOffer0_127 null>;
+                const v973 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <user_makeOffer0_126 msg/941>;
+                const v974 : Object({"_local": Data({"Admin_api_acceptOffer0_127": Null, "Admin_api_cancelLoanOfferandWithdrawCollateral0_127": Null, "Admin_api_freeze0_127": Null, "Admin_api_updateConfig0_127": Null, "Admin_api_updateLoanTerms_info0_127": Null, "user_acceptLoan0_127": Null, "user_makeOffer0_127": Null}), "msg": Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}), "when": Bool}) = {
+                  _local = v972,
+                  msg = v973,
+                  when = true};
+                throw(null).to(938); }; } };
+          only("Admin_api_acceptOffer") {
+            {
+              const v975 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_acceptOffer0_126 msg/787>;
+              const loanOffer/979 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = .api76.dom/787[0];
+              const v981 : Bool = this/783 == Admin/46;
+              const v982 : Bool = ADMIN_WALLET/51 == this/783;
+              const v983 : Bool = (v981 ? true : v982);
+              prompt(v984 : Null {impure local}) {
+                claim(CT_Assume)(v983, Just "The current user trying to access this interface is not Admin");
+                throw(null).to(984); };
+              const x/999 : Bool = returnExpression/79.loanTermsAccepted;
+              const v1001 : Bool = (x/999 ? false : true);
+              prompt(v1002 : Null {impure local}) {
+                claim(CT_Assume)(v1001, Just "An offer has already been accepted");
+                throw(null).to(1002); };
+              prompt(v1017 : Null {impure local}) {
+                const v1018 : Bool = returnExpression/79.freeze;
+                const v1019 : Bool = (v1018 ? true : false);
+                prompt(v1020 : Null {impure local}) {
+                  claim(CT_Assume)(v1019, Just "Contract is frozen");
+                  throw(null).to(1020); };
+                throw(null).to(1017); };
+              const v1035 : UInt = loanOffer/979.amount;
+              const v1036 : Address = loanOffer/979.borrower;
+              const v1037 : UInt = loanOffer/979.offerId;
+              const v1038 : Bool = loanOffer/979.rejected;
+              const m/1039 : Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}) = map0[v1037];
+              const v1041 : UInt = dataTag(m/1039);
+              const v1042 : Bool = v1041 == 1;
+              prompt(v1043 : Null {impure local}) {
+                claim(CT_Assume)(v1042, Just "Offer id doesn't exist");
+                throw(null).to(1043); };
+              const v1058 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1059 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1058 ];
+              const v1060 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1061 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1060 ];
+              const v1062 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1063 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1062 ];
+              const v1064 : Bool = nntok0/55 == paymentToken/55;
+              claim(CT_Assert)(v1064, Just "Expected the non-network token at position 1 in `case` payment to be equal to paymentToken as specified in `.paySpec`");
+              const v1065 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1066 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1065 ]; } };
+          only("Admin_api_cancelLoanOfferandWithdrawCollateral") {
+            {
+              const v1067 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_cancelLoanOfferandWithdrawCollateral0_126 msg/718>;
+              const local_config/1071 : UInt = .api75.dom/718[0];
+              const v1073 : Bool = this/714 == Admin/46;
+              const v1074 : Bool = ADMIN_WALLET/51 == this/714;
+              const v1075 : Bool = (v1073 ? true : v1074);
+              prompt(v1076 : Null {impure local}) {
+                claim(CT_Assume)(v1075, Just "The current user trying to access this interface is not Admin");
+                throw(null).to(1076); };
+              const x/1091 : Bool = returnExpression/79.loanTermsAccepted;
+              const v1093 : Bool = (x/1091 ? false : true);
+              prompt(v1094 : Null {impure local}) {
+                claim(CT_Assume)(v1093, Just "Cannot cancel loan or withdraw collateral when loan terms have been accepted");
+                throw(null).to(1094); };
+              prompt(v1109 : Null {impure local}) {
+                const v1110 : Bool = returnExpression/79.freeze;
+                const v1111 : Bool = (v1110 ? true : false);
+                prompt(v1112 : Null {impure local}) {
+                  claim(CT_Assume)(v1111, Just "Contract is frozen");
+                  throw(null).to(1112); };
+                throw(null).to(1109); };
+              const v1127 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1128 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1127 ];
+              const v1129 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1130 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1129 ];
+              const v1131 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1132 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1131 ];
+              const v1133 : Bool = nntok0/55 == paymentToken/55;
+              claim(CT_Assert)(v1133, Just "Expected the non-network token at position 1 in `case` payment to be equal to paymentToken as specified in `.paySpec`");
+              const v1134 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1135 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1134 ]; } };
+          only("Admin_api_freeze") {
+            {
+              const v1136 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_freeze0_126 msg/590>;
+              const toggle/1140 : Bool = .api73.dom/590[0];
+              const v1142 : Bool = this/586 == Admin/46;
+              const v1143 : Bool = ADMIN_WALLET/51 == this/586;
+              const v1144 : Bool = (v1142 ? true : v1143);
+              prompt(v1145 : Null {impure local}) {
+                claim(CT_Assume)(v1144, Just "The current user trying to access this interface is not Admin");
+                throw(null).to(1145); };
+              const x/1160 : Bool = returnExpression/79.loanTermsAccepted;
+              const v1162 : Bool = (x/1160 ? false : true);
+              prompt(v1163 : Null {impure local}) {
+                claim(CT_Assume)(v1162, Just "Cannot update config after Loan terms accepted");
+                throw(null).to(1163); };
+              const v1178 : Bool = returnExpression/79.freeze;
+              const v1179 : Bool = (v1178 ? false : true);
+              const x/1180 : Bool = (toggle/1140 ? v1178 : v1179);
+              const v1182 : Bool = (x/1180 ? false : true);
+              prompt(v1183 : Null {impure local}) {
+                claim(CT_Assume)(v1182, Just "The action you are trying to perform has already been done");
+                throw(null).to(1183); };
+              const v1198 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1199 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1198 ];
+              const v1200 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1201 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1200 ];
+              const v1202 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1203 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1202 ];
+              const v1204 : Bool = nntok0/55 == paymentToken/55;
+              claim(CT_Assert)(v1204, Just "Expected the non-network token at position 1 in `case` payment to be equal to paymentToken as specified in `.paySpec`");
+              const v1205 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1206 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1205 ]; } };
+          only("Admin_api_updateConfig") {
+            {
+              const v1207 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_updateConfig0_126 msg/529>;
+              const local_config/1211 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = .api72.dom/529[0];
+              const v1213 : Bool = this/525 == Admin/46;
+              const v1214 : Bool = ADMIN_WALLET/51 == this/525;
+              const v1215 : Bool = (v1213 ? true : v1214);
+              prompt(v1216 : Null {impure local}) {
+                claim(CT_Assume)(v1215, Just "The current user trying to access this interface is not Admin");
+                throw(null).to(1216); };
+              const x/1231 : Bool = returnExpression/79.loanTermsAccepted;
+              const v1233 : Bool = (x/1231 ? false : true);
+              prompt(v1234 : Null {impure local}) {
+                claim(CT_Assume)(v1233, Just "Cannot update config after Loan terms accepted");
+                throw(null).to(1234); };
+              const v1249 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1250 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1249 ];
+              const v1251 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1252 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1251 ];
+              const v1253 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1254 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1253 ];
+              const v1255 : Bool = nntok0/55 == paymentToken/55;
+              claim(CT_Assert)(v1255, Just "Expected the non-network token at position 1 in `case` payment to be equal to paymentToken as specified in `.paySpec`");
+              const v1256 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1257 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1256 ]; } };
+          only("Admin_api_updateLoanTerms_info") {
+            {
+              const v1258 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <Admin_api_updateLoanTerms_info0_126 msg/661>;
+              const local_config/1262 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = .api74.dom/661[0];
+              const v1264 : Bool = this/657 == Admin/46;
+              const v1265 : Bool = ADMIN_WALLET/51 == this/657;
+              const v1266 : Bool = (v1264 ? true : v1265);
+              prompt(v1267 : Null {impure local}) {
+                claim(CT_Assume)(v1266, Just "The current user trying to access this interface is not Admin");
+                throw(null).to(1267); };
+              const x/1282 : Bool = returnExpression/79.loanTermsAccepted;
+              const v1284 : Bool = (x/1282 ? false : true);
+              prompt(v1285 : Null {impure local}) {
+                claim(CT_Assume)(v1284, Just "Cannot update loan terms after Loan terms accepted");
+                throw(null).to(1285); };
+              const v1300 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1301 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1300 ];
+              const v1302 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1303 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1302 ];
+              const v1304 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1305 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1304 ];
+              const v1306 : Bool = nntok0/55 == paymentToken/55;
+              claim(CT_Assert)(v1306, Just "Expected the non-network token at position 1 in `case` payment to be equal to paymentToken as specified in `.paySpec`");
+              const v1307 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1308 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1307 ]; } };
+          only("user_acceptLoan") {
+            {
+              const v1309 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <user_acceptLoan0_126 msg/887>;
+              prompt(v1314 : Null {impure local}) {
+                const v1315 : Bool = returnExpression/79.freeze;
+                const v1316 : Bool = (v1315 ? true : false);
+                prompt(v1317 : Null {impure local}) {
+                  claim(CT_Assume)(v1316, Just "Contract is frozen");
+                  throw(null).to(1317); };
+                throw(null).to(1314); };
+              const acceptedAmount/1332 : UInt = config_as_object/47.number_of_tokens_to_deposit;
+              const x/1333 : Bool = returnExpression/79.loanTermsAccepted;
+              const v1335 : Bool = (x/1333 ? false : true);
+              prompt(v1336 : Null {impure local}) {
+                claim(CT_Assume)(v1335, Just "Offer already accepted");
+                throw(null).to(1336); };
+              const v1351 : Bool = config_as_object/47.prefersNetworkToken;
+              const v1352 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1353 : Tuple(UInt, Tuple(UInt, Token)) = [acceptedAmount/1332, v1352 ];
+              const v1354 : Tuple(UInt, Token) = [acceptedAmount/1332, paymentToken/55 ];
+              const v1355 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1354 ];
+              const transferData/1356 : Tuple(UInt, Tuple(UInt, Token)) = (v1351 ? v1353 : v1355);
+              const networkTokenPay/1357 : UInt = transferData/1356[0];
+              const v1358 : Tuple(UInt, Token) = transferData/1356[1];
+              const amt0/1359 : UInt = v1358[0];
+              const nntok0/1360 : Token = v1358[1];
+              const v1361 : Bool = nntok0/1360 == paymentToken/55;
+              claim(CT_Assert)(v1361, Just "Expected the non-network token at position 1 in `case` payment to be equal to paymentToken as specified in `.paySpec`");
+              const v1362 : Tuple(UInt, Token) = [amt0/1359, paymentToken/55 ];
+              const v1363 : Tuple(UInt, Tuple(UInt, Token)) = [networkTokenPay/1357, v1362 ]; } };
+          only("user_makeOffer") {
+            {
+              const v1364 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}) = <user_makeOffer0_126 msg/941>;
+              const v1368 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = .api78.dom/941[0];
+              const amount/1370 : UInt = v1368.amount;
+              const shouldPayWithNetworkToken/1371 : Bool = v1368.shouldPayWithNetworkToken;
+              prompt(v1372 : Null {impure local}) {
+                const v1373 : Bool = returnExpression/79.freeze;
+                const v1374 : Bool = (v1373 ? true : false);
+                prompt(v1375 : Null {impure local}) {
+                  claim(CT_Assume)(v1374, Just "Contract is frozen");
+                  throw(null).to(1375); };
+                throw(null).to(1372); };
+              const v1390 : Bool = config_as_object/47.prefersNetworkToken;
+              const v1391 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+              const v1392 : Tuple(UInt, Tuple(UInt, Token)) = [amount/1370, v1391 ];
+              const v1393 : Tuple(UInt, Token) = [amount/1370, paymentToken/55 ];
+              const v1394 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1393 ];
+              const v1395 : Tuple(UInt, Tuple(UInt, Token)) = (v1390 ? v1392 : v1394);
+              const networkTokenPay/1396 : UInt = v1395[0];
+              const v1397 : Tuple(UInt, Token) = v1395[1];
+              const amt0/1398 : UInt = v1397[0];
+              const nntok0/1399 : Token = v1397[1];
+              const v1400 : Bool = nntok0/1399 == paymentToken/55;
+              claim(CT_Assert)(v1400, Just "Expected the non-network token at position 1 in `case` payment to be equal to paymentToken as specified in `.paySpec`");
+              const v1401 : Tuple(UInt, Token) = [amt0/1398, paymentToken/55 ];
+              const v1402 : Tuple(UInt, Tuple(UInt, Token)) = [networkTokenPay/1396, v1401 ]; } };
+          publish(@?)
+            .case("Admin_api_acceptOffer").send({
+              isClass = True,
+              msg = [v975],
+              pay = [0, (0, paymentToken/55 ) ],
+              when = true
+              })
+            .case("Admin_api_cancelLoanOfferandWithdrawCollateral").send({
+              isClass = True,
+              msg = [v1067],
+              pay = [0, (0, paymentToken/55 ) ],
+              when = true
+              })
+            .case("Admin_api_freeze").send({
+              isClass = True,
+              msg = [v1136],
+              pay = [0, (0, paymentToken/55 ) ],
+              when = true
+              })
+            .case("Admin_api_updateConfig").send({
+              isClass = True,
+              msg = [v1207],
+              pay = [0, (0, paymentToken/55 ) ],
+              when = true
+              })
+            .case("Admin_api_updateLoanTerms_info").send({
+              isClass = True,
+              msg = [v1258],
+              pay = [0, (0, paymentToken/55 ) ],
+              when = true
+              })
+            .case("user_acceptLoan").send({
+              isClass = True,
+              msg = [v1309],
+              pay = [networkTokenPay/1357, (amt0/1359, paymentToken/55 ) ],
+              when = true
+              })
+            .case("user_makeOffer").send({
+              isClass = True,
+              msg = [v1364],
+              pay = [networkTokenPay/1396, (amt0/1398, paymentToken/55 ) ],
+              when = true
+              })
+            .recv({
+              didSend = didPublish/1821 : Bool,
+              from = this/1403 : Address,
+              msg = [.fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})],
+              secs = thisConsensusSecs/1820 : UInt,
+              time = thisConsensusTime/1819 : UInt
+              }){
+              prompt(v1406 : Null {impure([1406]) local}) {
+                switch (data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})) {
+                  case Admin_api_acceptOffer0_126 as data_id/1407 : Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}))* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    prompt(v1408 : Null {pure local}) {
+                      throw(null).to(1408); };
+                    throw(null).to(1406); }
+                  case Admin_api_cancelLoanOfferandWithdrawCollateral0_126 as data_id/1409 : Tuple(UInt)* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    prompt(v1410 : Null {pure local}) {
+                      throw(null).to(1410); };
+                    throw(null).to(1406); }
+                  case Admin_api_freeze0_126 as data_id/1411 : Tuple(Bool)* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    prompt(v1412 : Null {pure local}) {
+                      throw(null).to(1412); };
+                    throw(null).to(1406); }
+                  case Admin_api_updateConfig0_126 as data_id/1413 : Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]))* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    prompt(v1414 : Null {pure local}) {
+                      throw(null).to(1414); };
+                    throw(null).to(1406); }
+                  case Admin_api_updateLoanTerms_info0_126 as data_id/1415 : Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]))* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    prompt(v1416 : Null {pure local}) {
+                      throw(null).to(1416); };
+                    throw(null).to(1406); }
+                  case user_acceptLoan0_126 as data_id/1417 : Tuple()* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    prompt(v1418 : Null {pure local}) {
+                      throw(null).to(1418); };
+                    throw(null).to(1406); }
+                  case user_makeOffer0_126 as data_id/1419 : Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    prompt(v1420 : Null {pure local}) {
+                      throw(null).to(1420); };
+                    throw(null).to(1406); } } };
+              prompt(v1422 : Tuple(UInt, Tuple(UInt, Token)) {impure local}) {
+                switch (data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})) {
+                  case Admin_api_acceptOffer0_126 as data_id/1423 : Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}))* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    const loanOffer/1425 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = .api76.dom/1423[0];
+                    const v1427 : Bool = this/1403 == Admin/46;
+                    const v1428 : Bool = ADMIN_WALLET/51 == this/1403;
+                    const v1429 : Bool = (v1427 ? true : v1428);
+                    prompt(v1430 : Null {impure local}) {
+                      claim(CT_Require)(v1429, Just "The current user trying to access this interface is not Admin");
+                      throw(null).to(1430); };
+                    const x/1445 : Bool = returnExpression/79.loanTermsAccepted;
+                    const v1447 : Bool = (x/1445 ? false : true);
+                    prompt(v1448 : Null {impure local}) {
+                      claim(CT_Require)(v1447, Just "An offer has already been accepted");
+                      throw(null).to(1448); };
+                    prompt(v1463 : Null {impure local}) {
+                      const v1464 : Bool = returnExpression/79.freeze;
+                      const v1465 : Bool = (v1464 ? true : false);
+                      prompt(v1466 : Null {impure local}) {
+                        claim(CT_Require)(v1465, Just "Contract is frozen");
+                        throw(null).to(1466); };
+                      throw(null).to(1463); };
+                    const v1481 : UInt = loanOffer/1425.amount;
+                    const v1482 : Address = loanOffer/1425.borrower;
+                    const v1483 : UInt = loanOffer/1425.offerId;
+                    const v1484 : Bool = loanOffer/1425.rejected;
+                    const m/1485 : Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}) = map0[v1483];
+                    const v1487 : UInt = dataTag(m/1485);
+                    const v1488 : Bool = v1487 == 1;
+                    prompt(v1489 : Null {impure local}) {
+                      claim(CT_Require)(v1488, Just "Offer id doesn't exist");
+                      throw(null).to(1489); };
+                    const v1504 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1505 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1504 ];
+                    const v1506 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1507 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1506 ];
+                    const v1508 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1509 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1508 ];
+                    throw(v1509).to(1422); }
+                  case Admin_api_cancelLoanOfferandWithdrawCollateral0_126 as data_id/1510 : Tuple(UInt)* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    const local_config/1512 : UInt = .api75.dom/1510[0];
+                    const v1514 : Bool = this/1403 == Admin/46;
+                    const v1515 : Bool = ADMIN_WALLET/51 == this/1403;
+                    const v1516 : Bool = (v1514 ? true : v1515);
+                    prompt(v1517 : Null {impure local}) {
+                      claim(CT_Require)(v1516, Just "The current user trying to access this interface is not Admin");
+                      throw(null).to(1517); };
+                    const x/1532 : Bool = returnExpression/79.loanTermsAccepted;
+                    const v1534 : Bool = (x/1532 ? false : true);
+                    prompt(v1535 : Null {impure local}) {
+                      claim(CT_Require)(v1534, Just "Cannot cancel loan or withdraw collateral when loan terms have been accepted");
+                      throw(null).to(1535); };
+                    prompt(v1550 : Null {impure local}) {
+                      const v1551 : Bool = returnExpression/79.freeze;
+                      const v1552 : Bool = (v1551 ? true : false);
+                      prompt(v1553 : Null {impure local}) {
+                        claim(CT_Require)(v1552, Just "Contract is frozen");
+                        throw(null).to(1553); };
+                      throw(null).to(1550); };
+                    const v1568 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1569 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1568 ];
+                    const v1570 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1571 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1570 ];
+                    const v1572 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1573 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1572 ];
+                    throw(v1573).to(1422); }
+                  case Admin_api_freeze0_126 as data_id/1574 : Tuple(Bool)* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    const toggle/1576 : Bool = .api73.dom/1574[0];
+                    const v1578 : Bool = this/1403 == Admin/46;
+                    const v1579 : Bool = ADMIN_WALLET/51 == this/1403;
+                    const v1580 : Bool = (v1578 ? true : v1579);
+                    prompt(v1581 : Null {impure local}) {
+                      claim(CT_Require)(v1580, Just "The current user trying to access this interface is not Admin");
+                      throw(null).to(1581); };
+                    const x/1596 : Bool = returnExpression/79.loanTermsAccepted;
+                    const v1598 : Bool = (x/1596 ? false : true);
+                    prompt(v1599 : Null {impure local}) {
+                      claim(CT_Require)(v1598, Just "Cannot update config after Loan terms accepted");
+                      throw(null).to(1599); };
+                    const v1614 : Bool = returnExpression/79.freeze;
+                    const v1615 : Bool = (v1614 ? false : true);
+                    const x/1616 : Bool = (toggle/1576 ? v1614 : v1615);
+                    const v1618 : Bool = (x/1616 ? false : true);
+                    prompt(v1619 : Null {impure local}) {
+                      claim(CT_Require)(v1618, Just "The action you are trying to perform has already been done");
+                      throw(null).to(1619); };
+                    const v1634 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1635 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1634 ];
+                    const v1636 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1637 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1636 ];
+                    const v1638 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1639 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1638 ];
+                    throw(v1639).to(1422); }
+                  case Admin_api_updateConfig0_126 as data_id/1640 : Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]))* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    const local_config/1642 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = .api72.dom/1640[0];
+                    const v1644 : Bool = this/1403 == Admin/46;
+                    const v1645 : Bool = ADMIN_WALLET/51 == this/1403;
+                    const v1646 : Bool = (v1644 ? true : v1645);
+                    prompt(v1647 : Null {impure local}) {
+                      claim(CT_Require)(v1646, Just "The current user trying to access this interface is not Admin");
+                      throw(null).to(1647); };
+                    const x/1662 : Bool = returnExpression/79.loanTermsAccepted;
+                    const v1664 : Bool = (x/1662 ? false : true);
+                    prompt(v1665 : Null {impure local}) {
+                      claim(CT_Require)(v1664, Just "Cannot update config after Loan terms accepted");
+                      throw(null).to(1665); };
+                    const v1680 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1681 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1680 ];
+                    const v1682 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1683 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1682 ];
+                    const v1684 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1685 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1684 ];
+                    throw(v1685).to(1422); }
+                  case Admin_api_updateLoanTerms_info0_126 as data_id/1686 : Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]))* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    const local_config/1688 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = .api74.dom/1686[0];
+                    const v1690 : Bool = this/1403 == Admin/46;
+                    const v1691 : Bool = ADMIN_WALLET/51 == this/1403;
+                    const v1692 : Bool = (v1690 ? true : v1691);
+                    prompt(v1693 : Null {impure local}) {
+                      claim(CT_Require)(v1692, Just "The current user trying to access this interface is not Admin");
+                      throw(null).to(1693); };
+                    const x/1708 : Bool = returnExpression/79.loanTermsAccepted;
+                    const v1710 : Bool = (x/1708 ? false : true);
+                    prompt(v1711 : Null {impure local}) {
+                      claim(CT_Require)(v1710, Just "Cannot update loan terms after Loan terms accepted");
+                      throw(null).to(1711); };
+                    const v1726 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1727 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1726 ];
+                    const v1728 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1729 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1728 ];
+                    const v1730 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1731 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1730 ];
+                    throw(v1731).to(1422); }
+                  case user_acceptLoan0_126 as data_id/1732 : Tuple()* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    prompt(v1735 : Null {impure local}) {
+                      const v1736 : Bool = returnExpression/79.freeze;
+                      const v1737 : Bool = (v1736 ? true : false);
+                      prompt(v1738 : Null {impure local}) {
+                        claim(CT_Require)(v1737, Just "Contract is frozen");
+                        throw(null).to(1738); };
+                      throw(null).to(1735); };
+                    const acceptedAmount/1753 : UInt = config_as_object/47.number_of_tokens_to_deposit;
+                    const x/1754 : Bool = returnExpression/79.loanTermsAccepted;
+                    const v1756 : Bool = (x/1754 ? false : true);
+                    prompt(v1757 : Null {impure local}) {
+                      claim(CT_Require)(v1756, Just "Offer already accepted");
+                      throw(null).to(1757); };
+                    const v1772 : Bool = config_as_object/47.prefersNetworkToken;
+                    const v1773 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1774 : Tuple(UInt, Tuple(UInt, Token)) = [acceptedAmount/1753, v1773 ];
+                    const v1775 : Tuple(UInt, Token) = [acceptedAmount/1753, paymentToken/55 ];
+                    const v1776 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1775 ];
+                    const transferData/1777 : Tuple(UInt, Tuple(UInt, Token)) = (v1772 ? v1774 : v1776);
+                    throw(transferData/1777).to(1422); }
+                  case user_makeOffer0_126 as data_id/1778 : Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))* from data_id/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                    const v1780 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = .api78.dom/1778[0];
+                    const amount/1782 : UInt = v1780.amount;
+                    const shouldPayWithNetworkToken/1783 : Bool = v1780.shouldPayWithNetworkToken;
+                    prompt(v1784 : Null {impure local}) {
+                      const v1785 : Bool = returnExpression/79.freeze;
+                      const v1786 : Bool = (v1785 ? true : false);
+                      prompt(v1787 : Null {impure local}) {
+                        claim(CT_Require)(v1786, Just "Contract is frozen");
+                        throw(null).to(1787); };
+                      throw(null).to(1784); };
+                    const v1802 : Bool = config_as_object/47.prefersNetworkToken;
+                    const v1803 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                    const v1804 : Tuple(UInt, Tuple(UInt, Token)) = [amount/1782, v1803 ];
+                    const v1805 : Tuple(UInt, Token) = [amount/1782, paymentToken/55 ];
+                    const v1806 : Tuple(UInt, Tuple(UInt, Token)) = [0, v1805 ];
+                    const v1807 : Tuple(UInt, Tuple(UInt, Token)) = (v1802 ? v1804 : v1806);
+                    throw(v1807).to(1422); } } };
+              const networkTokenPay/1808 : UInt = v1422[0];
+              const v1809 : Tuple(UInt, Token) = v1422[1];
+              const amt0/1810 : UInt = v1809[0];
+              const nntok0/1811 : Token = v1809[1];
+              const v1812 : Bool = nntok0/1811 == paymentToken/55;
+              claim(CT_Assert)(v1812, Just "Expected the non-network token at position 1 in `case` payment to be equal to paymentToken as specified in `.paySpec`");
+              const v1813 : Tuple(UInt, Token) = [amt0/1810, paymentToken/55 ];
+              const v1814 : Tuple(UInt, Tuple(UInt, Token)) = [networkTokenPay/1808, v1813 ];
+              netBalance/1815 : UInt <- fluid netBalance
+              const v1816 : UInt = netBalance/1815 + networkTokenPay/1808;
+              fluid netBalance := v1816
+              checkPay(networkTokenPay/1808, None);
+              tokenMetaGet(TM_Balance, v1817 : UInt, paymentToken/55, Nothing)
+              const v1818 : UInt = v1817 + amt0/1810;
+              tokenMetaSet(TM_Balance, paymentToken/55, v1818, Nothing, False)
+              checkPay(amt0/1810, Some paymentToken/55);
+              fluid thisConsensusTime := thisConsensusTime/1819
+              fluid thisConsensusSecs := thisConsensusSecs/1820
+              fluid didPublish := didPublish/1821
+              switch (.fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})) {
+                case Admin_api_acceptOffer0_126 as .fork126.msg/1822 : Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}))* from .fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                  setApiDetails("Admin_api_acceptOffer", [Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})], Some Admin_api_acceptOffer0_126, AIC_Case );
+                  const loanOffer/1824 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = .api76.dom/1822[0];
+                  const v1825 : Bool = this/1403 == Admin/46;
+                  const v1826 : Bool = ADMIN_WALLET/51 == this/1403;
+                  const v1827 : Bool = (v1825 ? true : v1826);
+                  prompt(v1828 : Null {impure local}) {
+                    claim(CT_Require)(v1827, Just "The current user trying to access this interface is not Admin");
+                    throw(null).to(1828); };
+                  const x/1843 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v1845 : Bool = (x/1843 ? false : true);
+                  prompt(v1846 : Null {impure local}) {
+                    claim(CT_Require)(v1845, Just "An offer has already been accepted");
+                    throw(null).to(1846); };
+                  prompt(v1861 : Null {impure local}) {
+                    const v1862 : Bool = returnExpression/79.freeze;
+                    const v1863 : Bool = (v1862 ? true : false);
+                    prompt(v1864 : Null {impure local}) {
+                      claim(CT_Require)(v1863, Just "Contract is frozen");
+                      throw(null).to(1864); };
+                    throw(null).to(1861); };
+                  const v1879 : UInt = loanOffer/1824.amount;
+                  const v1880 : Address = loanOffer/1824.borrower;
+                  const v1881 : UInt = loanOffer/1824.offerId;
+                  const v1882 : Bool = loanOffer/1824.rejected;
+                  const offerInfo/1883 : Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}) = map0[v1881];
+                  const v1885 : UInt = dataTag(m/1883);
+                  const v1886 : Bool = v1885 == 1;
+                  prompt(v1887 : Null {impure local}) {
+                    claim(CT_Require)(v1886, Just "Offer id doesn't exist");
+                    throw(null).to(1887); };
+                  const _/1902 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = .api76.dom/1822[0];
+                  const v1903 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = {
+                    amount = 0,
+                    borrower = this/1403,
+                    offerId = 0,
+                    rejected = false};
+                  const data/1904 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = fromSome(offerInfo/1883, v1903 );
+                  prompt(v1905 : Null {impure}) {
+                    const v1906 : Null = null;
+                    const .api76.rngl/1907 : Null = emitLog(api("Admin_api_acceptOffer"))(v1906 );
+                    only("Admin_api_acceptOffer") {
+                      {
+                        const v1909 : Address = selfAddress("Admin_api_acceptOffer", True, 1908 )();
+                        prompt(v1910 : Null {impure local}) {
+                          didPublish/1911 : Bool <- fluid didPublish
+                          if didPublish/1911 {impure local} then {
+                            const v1912 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = .api76.dom/1822[0];
+                            const v1913 : UInt = v1912.amount;
+                            const v1914 : Address = v1912.borrower;
+                            const v1915 : UInt = v1912.offerId;
+                            const v1916 : Bool = v1912.rejected;
+                            protect<Null>("Admin_api_acceptOffer".interact.out(.api76.dom/1822, .api76.rngl/1907 )); }
+                          else {
+                             };
+                          throw(null).to(1910); }; } };
+                    throw(null).to(1905); };
+                  const v1917 : Data({"None": Null, "Some": Address}) = returnExpression/79.acceptedAddress;
+                  const v1918 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+                  const v1919 : Bool = returnExpression/79.continue;
+                  const v1920 : Bool = returnExpression/79.freeze;
+                  const v1921 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+                  const v1922 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v1923 : UInt = returnExpression/79.offers;
+                  const v1924 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v1917,
+                    config = v1918,
+                    continue = v1919,
+                    freeze = v1920,
+                    loanTerms = v1921,
+                    loanTermsAccepted = true,
+                    offers = v1923};
+                  const v1925 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v1917,
+                    config = v1918,
+                    continue = v1919,
+                    freeze = v1920,
+                    loanTerms = v1921,
+                    loanTermsAccepted = true,
+                    offers = v1923};
+                  {
+                    returnExpression/79 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = v1925
+                    }
+                  continue; }
+                case Admin_api_cancelLoanOfferandWithdrawCollateral0_126 as .fork126.msg/1926 : Tuple(UInt)* from .fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                  setApiDetails("Admin_api_cancelLoanOfferandWithdrawCollateral", [Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})], Some Admin_api_cancelLoanOfferandWithdrawCollateral0_126, AIC_Case );
+                  const local_config/1928 : UInt = .api75.dom/1926[0];
+                  const v1929 : Bool = this/1403 == Admin/46;
+                  const v1930 : Bool = ADMIN_WALLET/51 == this/1403;
+                  const v1931 : Bool = (v1929 ? true : v1930);
+                  prompt(v1932 : Null {impure local}) {
+                    claim(CT_Require)(v1931, Just "The current user trying to access this interface is not Admin");
+                    throw(null).to(1932); };
+                  const x/1947 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v1949 : Bool = (x/1947 ? false : true);
+                  prompt(v1950 : Null {impure local}) {
+                    claim(CT_Require)(v1949, Just "Cannot cancel loan or withdraw collateral when loan terms have been accepted");
+                    throw(null).to(1950); };
+                  prompt(v1965 : Null {impure local}) {
+                    const v1966 : Bool = returnExpression/79.freeze;
+                    const v1967 : Bool = (v1966 ? true : false);
+                    prompt(v1968 : Null {impure local}) {
+                      claim(CT_Require)(v1967, Just "Contract is frozen");
+                      throw(null).to(1968); };
+                    throw(null).to(1965); };
+                  const _/1983 : UInt = .api75.dom/1926[0];
+                  prompt(v1984 : Null {impure}) {
+                    const v1985 : Null = null;
+                    const .api75.rngl/1986 : Null = emitLog(api("Admin_api_cancelLoanOfferandWithdrawCollateral"))(v1985 );
+                    only("Admin_api_cancelLoanOfferandWithdrawCollateral") {
+                      {
+                        const v1988 : Address = selfAddress("Admin_api_cancelLoanOfferandWithdrawCollateral", True, 1987 )();
+                        prompt(v1989 : Null {impure local}) {
+                          didPublish/1990 : Bool <- fluid didPublish
+                          if didPublish/1990 {impure local} then {
+                            const v1991 : UInt = .api75.dom/1926[0];
+                            protect<Null>("Admin_api_cancelLoanOfferandWithdrawCollateral".interact.out(.api75.dom/1926, .api75.rngl/1986 )); }
+                          else {
+                             };
+                          throw(null).to(1989); }; } };
+                    throw(null).to(1984); };
+                  const v1992 : Data({"None": Null, "Some": Address}) = returnExpression/79.acceptedAddress;
+                  const v1993 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+                  const v1994 : Bool = returnExpression/79.continue;
+                  const v1995 : Bool = returnExpression/79.freeze;
+                  const v1996 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+                  const v1997 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v1998 : UInt = returnExpression/79.offers;
+                  const v1999 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v1992,
+                    config = v1993,
+                    continue = false,
+                    freeze = v1995,
+                    loanTerms = v1996,
+                    loanTermsAccepted = v1997,
+                    offers = v1998};
+                  const v2000 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v1992,
+                    config = v1993,
+                    continue = false,
+                    freeze = v1995,
+                    loanTerms = v1996,
+                    loanTermsAccepted = v1997,
+                    offers = v1998};
+                  {
+                    returnExpression/79 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = v2000
+                    }
+                  continue; }
+                case Admin_api_freeze0_126 as .fork126.msg/2001 : Tuple(Bool)* from .fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                  setApiDetails("Admin_api_freeze", [Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})], Some Admin_api_freeze0_126, AIC_Case );
+                  const toggle/2003 : Bool = .api73.dom/2001[0];
+                  const v2004 : Bool = this/1403 == Admin/46;
+                  const v2005 : Bool = ADMIN_WALLET/51 == this/1403;
+                  const v2006 : Bool = (v2004 ? true : v2005);
+                  prompt(v2007 : Null {impure local}) {
+                    claim(CT_Require)(v2006, Just "The current user trying to access this interface is not Admin");
+                    throw(null).to(2007); };
+                  const x/2022 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2024 : Bool = (x/2022 ? false : true);
+                  prompt(v2025 : Null {impure local}) {
+                    claim(CT_Require)(v2024, Just "Cannot update config after Loan terms accepted");
+                    throw(null).to(2025); };
+                  const v2040 : Bool = returnExpression/79.freeze;
+                  const v2041 : Bool = (v2040 ? false : true);
+                  const x/2042 : Bool = (toggle/2003 ? v2040 : v2041);
+                  const v2044 : Bool = (x/2042 ? false : true);
+                  prompt(v2045 : Null {impure local}) {
+                    claim(CT_Require)(v2044, Just "The action you are trying to perform has already been done");
+                    throw(null).to(2045); };
+                  const _/2060 : Bool = .api73.dom/2001[0];
+                  prompt(v2061 : Null {impure}) {
+                    const v2062 : Null = null;
+                    const .api73.rngl/2063 : Null = emitLog(api("Admin_api_freeze"))(v2062 );
+                    only("Admin_api_freeze") {
+                      {
+                        const v2065 : Address = selfAddress("Admin_api_freeze", True, 2064 )();
+                        prompt(v2066 : Null {impure local}) {
+                          didPublish/2067 : Bool <- fluid didPublish
+                          if didPublish/2067 {impure local} then {
+                            const v2068 : Bool = .api73.dom/2001[0];
+                            protect<Null>("Admin_api_freeze".interact.out(.api73.dom/2001, .api73.rngl/2063 )); }
+                          else {
+                             };
+                          throw(null).to(2066); }; } };
+                    throw(null).to(2061); };
+                  const v2069 : Data({"None": Null, "Some": Address}) = returnExpression/79.acceptedAddress;
+                  const v2070 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+                  const v2071 : Bool = returnExpression/79.continue;
+                  const v2072 : Bool = returnExpression/79.freeze;
+                  const v2073 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+                  const v2074 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2075 : UInt = returnExpression/79.offers;
+                  const v2076 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2069,
+                    config = v2070,
+                    continue = v2071,
+                    freeze = toggle/2003,
+                    loanTerms = v2073,
+                    loanTermsAccepted = v2074,
+                    offers = v2075};
+                  const v2077 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2069,
+                    config = v2070,
+                    continue = v2071,
+                    freeze = toggle/2003,
+                    loanTerms = v2073,
+                    loanTermsAccepted = v2074,
+                    offers = v2075};
+                  {
+                    returnExpression/79 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = v2077
+                    }
+                  continue; }
+                case Admin_api_updateConfig0_126 as .fork126.msg/2078 : Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]))* from .fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                  setApiDetails("Admin_api_updateConfig", [Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})], Some Admin_api_updateConfig0_126, AIC_Case );
+                  const local_config/2080 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = .api72.dom/2078[0];
+                  const v2081 : Bool = this/1403 == Admin/46;
+                  const v2082 : Bool = ADMIN_WALLET/51 == this/1403;
+                  const v2083 : Bool = (v2081 ? true : v2082);
+                  prompt(v2084 : Null {impure local}) {
+                    claim(CT_Require)(v2083, Just "The current user trying to access this interface is not Admin");
+                    throw(null).to(2084); };
+                  const x/2099 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2101 : Bool = (x/2099 ? false : true);
+                  prompt(v2102 : Null {impure local}) {
+                    claim(CT_Require)(v2101, Just "Cannot update config after Loan terms accepted");
+                    throw(null).to(2102); };
+                  const _/2117 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = .api72.dom/2078[0];
+                  prompt(v2118 : Null {impure}) {
+                    const v2119 : Null = null;
+                    const .api72.rngl/2120 : Null = emitLog(api("Admin_api_updateConfig"))(v2119 );
+                    only("Admin_api_updateConfig") {
+                      {
+                        const v2122 : Address = selfAddress("Admin_api_updateConfig", True, 2121 )();
+                        prompt(v2123 : Null {impure local}) {
+                          didPublish/2124 : Bool <- fluid didPublish
+                          if didPublish/2124 {impure local} then {
+                            const v2125 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = .api72.dom/2078[0];
+                            const v2126 : Token = v2125.token;
+                            const v2127 : UInt = v2125.number_of_tokens_to_deposit;
+                            const v2128 : Token = v2125.paymentAsset;
+                            const v2129 : Bool = v2125.shouldPayInOnlyNetworkToken;
+                            const v2130 : Bool = v2125.prefersNetworkToken;
+                            protect<Null>("Admin_api_updateConfig".interact.out(.api72.dom/2078, .api72.rngl/2120 )); }
+                          else {
+                             };
+                          throw(null).to(2123); }; } };
+                    throw(null).to(2118); };
+                  const v2131 : Data({"None": Null, "Some": Address}) = returnExpression/79.acceptedAddress;
+                  const v2132 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+                  const v2133 : Bool = returnExpression/79.continue;
+                  const v2134 : Bool = returnExpression/79.freeze;
+                  const v2135 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+                  const v2136 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2137 : UInt = returnExpression/79.offers;
+                  const v2138 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2131,
+                    config = local_config/2080,
+                    continue = v2133,
+                    freeze = v2134,
+                    loanTerms = v2135,
+                    loanTermsAccepted = v2136,
+                    offers = v2137};
+                  const v2139 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2131,
+                    config = local_config/2080,
+                    continue = v2133,
+                    freeze = v2134,
+                    loanTerms = v2135,
+                    loanTermsAccepted = v2136,
+                    offers = v2137};
+                  {
+                    returnExpression/79 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = v2139
+                    }
+                  continue; }
+                case Admin_api_updateLoanTerms_info0_126 as .fork126.msg/2140 : Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]))* from .fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                  setApiDetails("Admin_api_updateLoanTerms_info", [Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})], Some Admin_api_updateLoanTerms_info0_126, AIC_Case );
+                  const local_config/2142 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = .api74.dom/2140[0];
+                  const v2143 : Bool = this/1403 == Admin/46;
+                  const v2144 : Bool = ADMIN_WALLET/51 == this/1403;
+                  const v2145 : Bool = (v2143 ? true : v2144);
+                  prompt(v2146 : Null {impure local}) {
+                    claim(CT_Require)(v2145, Just "The current user trying to access this interface is not Admin");
+                    throw(null).to(2146); };
+                  const x/2161 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2163 : Bool = (x/2161 ? false : true);
+                  prompt(v2164 : Null {impure local}) {
+                    claim(CT_Require)(v2163, Just "Cannot update loan terms after Loan terms accepted");
+                    throw(null).to(2164); };
+                  const _/2179 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = .api74.dom/2140[0];
+                  prompt(v2180 : Null {impure}) {
+                    const v2181 : Null = null;
+                    const .api74.rngl/2182 : Null = emitLog(api("Admin_api_updateLoanTerms_info"))(v2181 );
+                    only("Admin_api_updateLoanTerms_info") {
+                      {
+                        const v2184 : Address = selfAddress("Admin_api_updateLoanTerms_info", True, 2183 )();
+                        prompt(v2185 : Null {impure local}) {
+                          didPublish/2186 : Bool <- fluid didPublish
+                          if didPublish/2186 {impure local} then {
+                            const v2187 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = .api74.dom/2140[0];
+                            const v2188 : UInt = v2187.duration_in_blocks;
+                            const v2189 : UInt = v2187.principle;
+                            const v2190 : Token = v2187.interest;
+                            protect<Null>("Admin_api_updateLoanTerms_info".interact.out(.api74.dom/2140, .api74.rngl/2182 )); }
+                          else {
+                             };
+                          throw(null).to(2185); }; } };
+                    throw(null).to(2180); };
+                  const v2191 : Data({"None": Null, "Some": Address}) = returnExpression/79.acceptedAddress;
+                  const v2192 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+                  const v2193 : Bool = returnExpression/79.continue;
+                  const v2194 : Bool = returnExpression/79.freeze;
+                  const v2195 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+                  const v2196 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2197 : UInt = returnExpression/79.offers;
+                  const v2198 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2191,
+                    config = v2192,
+                    continue = v2193,
+                    freeze = v2194,
+                    loanTerms = local_config/2142,
+                    loanTermsAccepted = v2196,
+                    offers = v2197};
+                  const v2199 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2191,
+                    config = v2192,
+                    continue = v2193,
+                    freeze = v2194,
+                    loanTerms = local_config/2142,
+                    loanTermsAccepted = v2196,
+                    offers = v2197};
+                  {
+                    returnExpression/79 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = v2199
+                    }
+                  continue; }
+                case user_acceptLoan0_126 as .fork126.msg/2200 : Tuple()* from .fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                  setApiDetails("user_acceptLoan", [Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})], Some user_acceptLoan0_126, AIC_Case );
+                  prompt(v2202 : Null {impure local}) {
+                    const v2203 : Bool = returnExpression/79.freeze;
+                    const v2204 : Bool = (v2203 ? true : false);
+                    prompt(v2205 : Null {impure local}) {
+                      claim(CT_Require)(v2204, Just "Contract is frozen");
+                      throw(null).to(2205); };
+                    throw(null).to(2202); };
+                  const acceptedAmount/2220 : UInt = config_as_object/47.number_of_tokens_to_deposit;
+                  const x/2221 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2223 : Bool = (x/2221 ? false : true);
+                  prompt(v2224 : Null {impure local}) {
+                    claim(CT_Require)(v2223, Just "Offer already accepted");
+                    throw(null).to(2224); };
+                  const v2239 : Bool = config_as_object/47.prefersNetworkToken;
+                  const v2240 : Tuple(UInt, Token) = [0, paymentToken/55 ];
+                  const v2241 : Tuple(UInt, Tuple(UInt, Token)) = [acceptedAmount/2220, v2240 ];
+                  const v2242 : Tuple(UInt, Token) = [acceptedAmount/2220, paymentToken/55 ];
+                  const v2243 : Tuple(UInt, Tuple(UInt, Token)) = [0, v2242 ];
+                  const transferData/2244 : Tuple(UInt, Tuple(UInt, Token)) = (v2239 ? v2241 : v2243);
+                  prompt(v2245 : Null {impure}) {
+                    const v2246 : Null = null;
+                    const .api77.rngl/2247 : Null = emitLog(api("user_acceptLoan"))(v2246 );
+                    only("user_acceptLoan") {
+                      {
+                        const v2249 : Address = selfAddress("user_acceptLoan", True, 2248 )();
+                        prompt(v2250 : Null {impure local}) {
+                          didPublish/2251 : Bool <- fluid didPublish
+                          if didPublish/2251 {impure local} then {
+                            protect<Null>("user_acceptLoan".interact.out(.api77.dom/2200, .api77.rngl/2247 )); }
+                          else {
+                             };
+                          throw(null).to(2250); }; } };
+                    throw(null).to(2245); };
+                  const v2252 : UInt = transferData/2244[0];
+                  const v2253 : Tuple(UInt, Token) = transferData/2244[1];
+                  const v2254 : UInt = v2253[0];
+                  const v2255 : Token = v2253[1];
+                  netBalance/2256 : UInt <- fluid netBalance
+                  const v2257 : Bool = v2252 <= netBalance/2256;
+                  claim(CT_Assert)(v2257, Just "balance sufficient for transfer");
+                  netBalance/2258 : UInt <- fluid netBalance
+                  const v2259 : UInt = netBalance/2258 - v2252;
+                  fluid netBalance := v2259
+                  transfer.(v2252, None).to(Admin/46);
+                  tokenMetaGet(TM_Balance, v2260 : UInt, v2255, Nothing)
+                  const v2261 : Bool = v2254 <= v2260;
+                  claim(CT_Assert)(v2261, Just "balance sufficient for transfer");
+                  tokenMetaGet(TM_Balance, v2262 : UInt, v2255, Nothing)
+                  const v2263 : UInt = v2262 - v2254;
+                  tokenMetaSet(TM_Balance, v2255, v2263, Nothing, False)
+                  transfer.(v2254, Some v2255).to(Admin/46);
+                  const v2264 : Data({"None": Null, "Some": Address}) = returnExpression/79.acceptedAddress;
+                  const v2265 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+                  const v2266 : Bool = returnExpression/79.continue;
+                  const v2267 : Bool = returnExpression/79.freeze;
+                  const v2268 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+                  const v2269 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2270 : UInt = returnExpression/79.offers;
+                  const v2271 : UInt = returnExpression/79.offers;
+                  const v2272 : UInt = v2271 + 1;
+                  const v2274 : Data({"None": Null, "Some": Address}) = <Some this/1403>;
+                  const v2275 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2274,
+                    config = v2265,
+                    continue = v2266,
+                    freeze = v2267,
+                    loanTerms = v2268,
+                    loanTermsAccepted = true,
+                    offers = v2272};
+                  const v2276 : Data({"None": Null, "Some": Address}) = <Some this/1403>;
+                  const v2277 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2276,
+                    config = v2265,
+                    continue = v2266,
+                    freeze = v2267,
+                    loanTerms = v2268,
+                    loanTermsAccepted = true,
+                    offers = v2272};
+                  {
+                    returnExpression/79 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = v2277
+                    }
+                  continue; }
+                case user_makeOffer0_126 as .fork126.msg/2278 : Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))* from .fork126.msg/1404 : Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))}): {
+                  setApiDetails("user_makeOffer", [Data({"Admin_api_acceptOffer0_126": Tuple(Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})), "Admin_api_cancelLoanOfferandWithdrawCollateral0_126": Tuple(UInt), "Admin_api_freeze0_126": Tuple(Bool), "Admin_api_updateConfig0_126": Tuple(Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]])), "Admin_api_updateLoanTerms_info0_126": Tuple(Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]])), "user_acceptLoan0_126": Tuple(), "user_makeOffer0_126": Tuple(Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}))})], Some user_makeOffer0_126, AIC_Case );
+                  const v2280 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = .api78.dom/2278[0];
+                  const amount/2281 : UInt = v2280.amount;
+                  const shouldPayWithNetworkToken/2282 : Bool = v2280.shouldPayWithNetworkToken;
+                  prompt(v2283 : Null {impure local}) {
+                    const v2284 : Bool = returnExpression/79.freeze;
+                    const v2285 : Bool = (v2284 ? true : false);
+                    prompt(v2286 : Null {impure local}) {
+                      claim(CT_Require)(v2285, Just "Contract is frozen");
+                      throw(null).to(2286); };
+                    throw(null).to(2283); };
+                  const _/2301 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = .api78.dom/2278[0];
+                  const v2302 : UInt = returnExpression/79.offers;
+                  const v2303 : UInt = returnExpression/79.offers;
+                  const v2304 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = {
+                    amount = amount/2281,
+                    borrower = this/1403,
+                    offerId = v2303,
+                    rejected = false};
+                  map0[v2302] = v2304;
+                  const v2305 : UInt = returnExpression/79.offers;
+                  prompt(v2306 : Null {impure}) {
+                    const v2307 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = {
+                      amount = amount/2281,
+                      borrower = this/1403,
+                      offerId = v2305,
+                      rejected = false};
+                    const .api78.rngl/2308 : Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool}) = emitLog(api("user_makeOffer"))(v2307 );
+                    only("user_makeOffer") {
+                      {
+                        const v2310 : Address = selfAddress("user_makeOffer", True, 2309 )();
+                        prompt(v2311 : Null {impure local}) {
+                          didPublish/2312 : Bool <- fluid didPublish
+                          if didPublish/2312 {impure local} then {
+                            const v2313 : Object({"amount": UInt, "shouldPayWithNetworkToken": Bool}) = .api78.dom/2278[0];
+                            const v2314 : UInt = v2313.amount;
+                            const v2315 : Bool = v2313.shouldPayWithNetworkToken;
+                            const v2316 : UInt = .api78.rngl/2308.amount;
+                            const v2317 : Address = .api78.rngl/2308.borrower;
+                            const v2318 : UInt = .api78.rngl/2308.offerId;
+                            const v2319 : Bool = .api78.rngl/2308.rejected;
+                            protect<Null>("user_makeOffer".interact.out(.api78.dom/2278, .api78.rngl/2308 )); }
+                          else {
+                             };
+                          throw(null).to(2311); }; } };
+                    throw(null).to(2306); };
+                  const v2320 : Data({"None": Null, "Some": Address}) = returnExpression/79.acceptedAddress;
+                  const v2321 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+                  const v2322 : Bool = returnExpression/79.continue;
+                  const v2323 : Bool = returnExpression/79.freeze;
+                  const v2324 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+                  const v2325 : Bool = returnExpression/79.loanTermsAccepted;
+                  const v2326 : UInt = returnExpression/79.offers;
+                  const v2327 : UInt = returnExpression/79.offers;
+                  const v2328 : UInt = v2327 + 1;
+                  const v2329 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2320,
+                    config = v2321,
+                    continue = v2322,
+                    freeze = v2323,
+                    loanTerms = v2324,
+                    loanTermsAccepted = v2325,
+                    offers = v2328};
+                  const v2330 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = {
+                    acceptedAddress = v2320,
+                    config = v2321,
+                    continue = v2322,
+                    freeze = v2323,
+                    loanTerms = v2324,
+                    loanTermsAccepted = v2325,
+                    offers = v2328};
+                  {
+                    returnExpression/79 : Object({"acceptedAddress": Data({"None": Null, "Some": Address}), "config": Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]), "continue": Bool, "freeze": Bool, "loanTerms": Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]), "loanTermsAccepted": Bool, "offers": UInt}) = v2330
+                    }
+                  continue; } } }
+             }
+        const v2331 : Struct([['"token"', Token], ['"number_of_tokens_to_deposit"', UInt], ['"paymentAsset"', Token], ['"shouldPayInOnlyNetworkToken"', Bool], ['"prefersNetworkToken"', Bool]]) = returnExpression/79.config;
+        const v2332 : Token = v2331.token;
+        const v2333 : UInt = v2331.number_of_tokens_to_deposit;
+        const v2334 : Token = v2331.paymentAsset;
+        const v2335 : Bool = v2331.shouldPayInOnlyNetworkToken;
+        const v2336 : Bool = v2331.prefersNetworkToken;
+        view(Just "info").config.is(Just export (Nothing) => {
+        return v2331;})
+        const v2337 : Struct([['"duration_in_blocks"', UInt], ['"principle"', UInt], ['"interest"', Token]]) = returnExpression/79.loanTerms;
+        const v2338 : UInt = v2337.duration_in_blocks;
+        const v2339 : UInt = v2337.principle;
+        const v2340 : Token = v2337.interest;
+        view(Just "info").loanTerms.is(Just export (Nothing) => {
+        return v2337;})
+        view(Just "info").offer.is(Just export (Just [v2341 : UInt*]) => {const v2343 : Data({"None": Null, "Some": Object({"amount": UInt, "borrower": Address, "offerId": UInt, "rejected": Bool})}) = map0[res/2341];
+        return v2343;})
+        commit();
+        only("Admin") {
+          {
+             } };
+        publish(@?)
+          .case("Admin").send({
+            isClass = False,
+            msg = [],
+            pay = [0, ],
+            when = true
+            })
+          .recv({
+            didSend = didPublish/2348 : Bool,
+            from = Admin/2344 : Address,
+            msg = [],
+            secs = thisConsensusSecs/2347 : UInt,
+            time = thisConsensusTime/2346 : UInt
+            }){
+            checkPay(0, None);
+            const v2345 : Bool = Admin/46 == Admin/2344;
+            claim(CT_Require)(v2345, Just "sender correct");
+            fluid thisConsensusTime := thisConsensusTime/2346
+            fluid thisConsensusSecs := thisConsensusSecs/2347
+            fluid didPublish := didPublish/2348
+            netBalance/2349 : UInt <- fluid netBalance
+            netBalance/2350 : UInt <- fluid netBalance
+            const v2351 : Bool = netBalance/2349 <= netBalance/2350;
+            claim(CT_Assert)(v2351, Just "balance sufficient for transfer");
+            netBalance/2352 : UInt <- fluid netBalance
+            const v2353 : UInt = netBalance/2352 - netBalance/2349;
+            fluid netBalance := v2353
+            transfer.(netBalance/2349, None).to(Admin/46);
+            tokenMetaGet(TM_Balance, v2354 : UInt, deposit_nft/48, Just 0)
+            tokenMetaGet(TM_Balance, v2355 : UInt, deposit_nft/48, Just 0)
+            const v2356 : Bool = v2354 <= v2355;
+            claim(CT_Assert)(v2356, Just "balance sufficient for transfer");
+            tokenMetaGet(TM_Balance, v2357 : UInt, deposit_nft/48, Just 0)
+            const v2358 : UInt = v2357 - v2354;
+            tokenMetaSet(TM_Balance, deposit_nft/48, v2358, Just 0, False)
+            transfer.(v2354, Some deposit_nft/48).to(Admin/46);
+            commit();
+            netBalance/2359 : UInt <- fluid netBalance
+            const v2360 : Bool = 0 == netBalance/2359;
+            claim(CT_Assert)(v2360, Just "balance zero at application exit");
+            tokenMetaGet(TM_Balance, v2361 : UInt, deposit_nft/48, Just 0)
+            const v2362 : Bool = 0 == v2361;
+            claim(CT_Assert)(v2362, Just "balance zero at application exit");
+            exit(); }
+           }
+       }
+  

@@ -1,0 +1,2112 @@
+#pragma version 8
+// resource: R_Txn
+txn ApplicationID
+bz alloc
+byte base64()
+app_global_get
+dup
+int 0
+extract_uint64
+store 1 // GV_currentStep :: UInt
+int 8
+extract_uint64
+store 2 // GV_currentTime :: UInt
+byte base64(AA==)
+app_global_get
+byte base64(AQ==)
+app_global_get
+concat
+byte base64(Ag==)
+app_global_get
+concat
+preamble:
+pushbytess base64(Ch0mSQ==) base64(D5seUg==) base64(NTSQYA==) base64(NxDHNA==) base64(VbcTKQ==) base64(ZOtyOQ==) base64(eW2Rmg==) base64(g6UBJA==) base64(mCFntg==) base64(0GIcsg==) base64(1omoOQ==) base64(39kjKA==) base64(+gHfYQ==)
+txna ApplicationArgs 0
+match _reachp_3 _reachp_4 info_loanTerms__9k2AchOOCzDMqAww4KWDk6Biqg_4DjENGRITiEcXUB0_ user_acceptLoan_NCdEOSoQGjH8uWz8tohdlpLpYrKleLr7N0TuOToHItM_ info_config___byGkkeOH38GbJGT_idYZt6MMVPy3mZlLclHQtkaCbK6Ik_ _reachp_0 info_offer_uint64y6BX_7rXaB6kHC79JaoAcR5fcyJEwFqGu6YtChhSQ4_ Admin_api_update0uB_MNDDwvW_mQbduj9H0F65U7qISpOxKUGoDvOCXyo_ Admin_api_cancel_UuYmnzjgqE7fvyP4NDZCOj0UYAI9F6hr6nTBm9MmJ4_ user_cancelOffer371W2bghpVJHrTgtKabUUBbNX6y0yu3t6Yo41gp_VE8_ Admin_api_acceptCuFOHcjTbnMxwuUR3GjhU6CJmJd1vM5Fed2phcCAVd8_ _reachp_1 user_makeOffer__U6UScaHTkR_2uCQRbhAUgk5unjlsZrteLFomP8lt3BA_
+errl:
+err
+Admin_api_acceptCuFOHcjTbnMxwuUR3GjhU6CJmJd1vM5Fed2phcCAVd8_:
+txna ApplicationArgs 1
+store 11 // v10516
+_reacha_Admin_api_acceptOffer:
+int 8
+bzero
+byte base64(AA==)
+load 11 // v10516
+concat
+concat
+store 11 // v10560
+_reachi_4:
+int 5
+load 1 // GV_currentStep :: UInt
+==
+assert
+callsub l4_LF_svsLoad_5
+load 11 // v10560
+int 0
+extract_uint64
+store 12 // v10559
+load 11 // v10560
+extract 8 51
+store 19 // .fork170.msg/3346
+byte base64(sRI4wg==)
+load 12 // v10559
+itob
+concat
+load 19 // .fork170.msg/3346
+concat
+log // up to 63 bytes
+// ^ log: "_reach_e4" [v10559,.fork170.msg/3346] "_reach_e4(uint64,(byte,byte[50]))"
+load 12 // v10559
+callsub l8_LF_timeCheck
+load 19 // .fork170.msg/3346
+int 0
+getbyte
+switch l15_Admin_api_acceptOffer0_170 l16_Admin_api_cancelLoanOfferandWithdrawCollateral0_170 l17_Admin_api_updateLoanTerms_info0_170 l18_user_acceptLoan0_170 l19_user_cancelOffer0_170 l20_user_makeOffer0_170
+b errl
+Admin_api_cancel_UuYmnzjgqE7fvyP4NDZCOj0UYAI9F6hr6nTBm9MmJ4_:
+txna ApplicationArgs 1
+btoi
+store 11 // v10522
+_reacha_Admin_api_cancelLoanOfferandWithdrawCollateral:
+int 8
+bzero
+byte base64(AQ==)
+load 11 // v10522
+itob
+concat
+int 42
+bzero
+concat
+concat
+store 11 // v10560
+b _reachi_4
+Admin_api_update0uB_MNDDwvW_mQbduj9H0F65U7qISpOxKUGoDvOCXyo_:
+txna ApplicationArgs 1
+store 11 // v10528
+_reacha_Admin_api_updateLoanTerms_info:
+int 8
+bzero
+byte base64(Ag==)
+load 11 // v10528
+concat
+int 26
+bzero
+concat
+concat
+store 11 // v10560
+b _reachi_4
+_api_Admin_api_acceptOffer4:
+txn Sender
+load 33 // Admin/2933
+==
+load 30 // ADMIN_WALLET/2938
+txn Sender
+==
+||
+assert
+// ^ Claim: The current user trying to access this interface is not Admin
+// at reach standard library:57:5:application
+// at ./index.rsh:221:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:220:42:application call to [unknown function] (defined at: ./index.rsh:220:42:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:220:42:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+load 25 // returnExpression/2974
+extract 94 1
+btoi
+!
+assert
+// ^ Claim: An offer has already been accepted
+// at reach standard library:57:5:application
+// at ./index.rsh:225:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:220:42:application call to [unknown function] (defined at: ./index.rsh:220:42:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:220:42:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+load 25 // returnExpression/2974
+extract 69 1
+btoi
+assert
+// ^ Claim: Contract is frozen
+// at reach standard library:57:5:application
+// at ./index.rsh:118:14:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:229:16:application call to "runChecks" (defined at: ./index.rsh:117:28:function exp)
+// at ./index.rsh:220:42:application call to [unknown function] (defined at: ./index.rsh:220:42:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:220:42:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+// resource: R_Box
+byte base64()
+int 50
+bzero
+byte base64(AA==)
+load 19 // .fork170.msg/3346
+extract 1 50
+extract 40 8
+concat
+callsub l7_LF_mapRef
+dup
+store 11 // m/3367
+int 0
+getbyte
+int 1
+==
+assert
+// ^ Claim: Offer id doesn't exist
+// at reach standard library:57:5:application
+// at ./index.rsh:232:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:220:42:application call to [unknown function] (defined at: ./index.rsh:220:42:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:220:42:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+byte base64()
+store 12 // v3504
+byte base64(AAAAAAAADbA=)
+load 12 // v3504
+concat
+log // up to 8 bytes
+load 12 // v3504
+store 4 // GV_apiRet :: Null
+byte base64(AQ==)
+int 8
+bzero
+load 27 // Admin/2953
+concat
+int 8
+bzero
+concat
+byte base64(AA==)
+concat
+byte base64(AA==)
+concat
+load 11 // m/3367
+callsub l21_LF_fromSome
+extract 8 32
+concat
+load 25 // returnExpression/2974
+extract 33 8
+concat
+load 21 // v3028
+concat
+load 25 // returnExpression/2974
+extract 68 1
+concat
+byte base64(AQ==)
+concat
+load 20 // v3035
+concat
+byte base64(AQ==)
+concat
+load 25 // returnExpression/2974
+extract 95 8
+concat
+load 25 // returnExpression/2974
+extract 103 8
+concat
+load 25 // returnExpression/2974
+extract 111 8
+concat
+global Round
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+_reachl_2:
+load 25 // returnExpression/2974
+extract 68 1
+btoi
+load 25 // returnExpression/2974
+int 33
+extract_uint64
+int 0
+!=
+||
+bz l35_ifF
+load 25 // returnExpression/2974
+extract 41 27
+store 21 // v3028
+load 25 // returnExpression/2974
+extract 70 24
+store 20 // v3035
+l36_LF_svsDump_5:
+load 33 // Admin/2933
+load 32 // config_as_object/2934
+concat
+load 31 // deposit_nft/2935
+itob
+concat
+load 30 // ADMIN_WALLET/2938
+concat
+load 29 // paymentToken/2939
+itob
+concat
+load 28 // tokens'/2949
+concat
+load 27 // Admin/2953
+concat
+load 26 // v2956
+itob
+concat
+load 25 // returnExpression/2974
+concat
+load 23 // tokenInfos/2981
+concat
+load 22 // netBalance/2982
+itob
+concat
+load 21 // v3028
+concat
+load 20 // v3035
+concat
+int 5
+global Round
+updateStateNoOp:
+store 2 // GV_currentTime :: UInt
+store 1 // GV_currentStep :: UInt
+byte base64(AA==)
+dig 1
+extract 0 127
+app_global_put
+byte base64(AQ==)
+dig 1
+extract 127 127
+app_global_put
+byte base64(Ag==)
+swap
+extract 254 121
+app_global_put
+byte base64()
+load 1 // GV_currentStep :: UInt
+itob
+load 2 // GV_currentTime :: UInt
+itob
+concat
+app_global_put
+txn OnCompletion
+int NoOp
+==
+assert
+// checked on completion
+callsub l38_LF_updateMbr
+updateState:
+load 3 // GV_wasntMeth :: Bool
+bnz done
+apiReturn_noCheck:
+byte base64(FR98dQ==)
+load 4 // GV_apiRet :: Null
+concat
+log // up to 55 bytes
+done:
+int 1
+return
+_api_Admin_api_cancelLoanOfferandWithdrawCollateral4:
+txn Sender
+load 33 // Admin/2933
+==
+load 30 // ADMIN_WALLET/2938
+txn Sender
+==
+||
+assert
+// ^ Claim: The current user trying to access this interface is not Admin
+// at reach standard library:57:5:application
+// at ./index.rsh:201:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:200:70:application call to [unknown function] (defined at: ./index.rsh:200:70:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:200:70:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+load 25 // returnExpression/2974
+extract 94 1
+btoi
+dup
+store 12 // x/3905
+!
+assert
+// ^ Claim: Cannot cancel loan or withdraw collateral when loan terms have been accepted
+// at reach standard library:57:5:application
+// at ./index.rsh:205:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:200:70:application call to [unknown function] (defined at: ./index.rsh:200:70:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:200:70:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+load 25 // returnExpression/2974
+extract 69 1
+btoi
+assert
+// ^ Claim: Contract is frozen
+// at reach standard library:57:5:application
+// at ./index.rsh:118:14:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:209:16:application call to "runChecks" (defined at: ./index.rsh:117:28:function exp)
+// at ./index.rsh:200:70:application call to [unknown function] (defined at: ./index.rsh:200:70:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:200:70:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+byte base64()
+store 11 // v4067
+byte base64(AAAAAAAAD+M=)
+load 11 // v4067
+concat
+log // up to 8 bytes
+load 11 // v4067
+store 4 // GV_apiRet :: Null
+load 25 // returnExpression/2974
+extract 0 33
+load 25 // returnExpression/2974
+extract 33 8
+concat
+load 21 // v3028
+concat
+byte base64(AA==)
+concat
+byte base64(AQ==)
+concat
+load 20 // v3035
+concat
+load 12 // x/3905
+itob
+substring 7 8
+concat
+load 25 // returnExpression/2974
+extract 95 8
+concat
+load 25 // returnExpression/2974
+extract 103 8
+concat
+load 25 // returnExpression/2974
+extract 111 8
+concat
+global Round
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+b _reachl_2
+_api_Admin_api_updateLoanTerms_info4:
+txn Sender
+load 33 // Admin/2933
+==
+load 30 // ADMIN_WALLET/2938
+txn Sender
+==
+||
+assert
+// ^ Claim: The current user trying to access this interface is not Admin
+// at reach standard library:57:5:application
+// at ./index.rsh:183:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:182:54:application call to [unknown function] (defined at: ./index.rsh:182:54:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:182:54:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+load 25 // returnExpression/2974
+extract 94 1
+btoi
+dup
+store 12 // x/4446
+!
+assert
+// ^ Claim: Cannot update loan terms after Loan terms accepted
+// at reach standard library:57:5:application
+// at ./index.rsh:187:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:182:54:application call to [unknown function] (defined at: ./index.rsh:182:54:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:182:54:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+byte base64()
+store 11 // v4618
+byte base64(AAAAAAAAEgo=)
+load 11 // v4618
+concat
+log // up to 8 bytes
+load 11 // v4618
+store 4 // GV_apiRet :: Null
+load 25 // returnExpression/2974
+extract 0 33
+load 25 // returnExpression/2974
+extract 33 8
+concat
+load 21 // v3028
+concat
+load 25 // returnExpression/2974
+extract 68 1
+concat
+load 25 // returnExpression/2974
+extract 69 1
+concat
+load 19 // .fork170.msg/3346
+extract 1 24
+concat
+load 12 // x/4446
+itob
+substring 7 8
+concat
+load 25 // returnExpression/2974
+extract 95 8
+concat
+load 25 // returnExpression/2974
+extract 103 8
+concat
+load 25 // returnExpression/2974
+extract 111 8
+concat
+global Round
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+b _reachl_2
+_api_user_acceptLoan4:
+load 25 // returnExpression/2974
+extract 69 1
+btoi
+assert
+// ^ Claim: Contract is frozen
+// at reach standard library:57:5:application
+// at ./index.rsh:118:14:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:247:16:application call to "runChecks" (defined at: ./index.rsh:117:28:function exp)
+// at ./index.rsh:246:31:application call to [unknown function] (defined at: ./index.rsh:246:31:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:246:31:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+load 25 // returnExpression/2974
+extract 94 1
+btoi
+!
+assert
+// ^ Claim: Offer already accepted
+// at reach standard library:57:5:application
+// at ./index.rsh:249:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:246:31:application call to [unknown function] (defined at: ./index.rsh:246:31:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:246:31:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+int 8
+bzero
+load 26 // v2956
+itob
+load 29 // paymentToken/2939
+itob
+concat
+concat
+load 26 // v2956
+itob
+int 8
+bzero
+load 29 // paymentToken/2939
+itob
+concat
+concat
+load 32 // config_as_object/2934
+extract 17 1
+btoi
+select
+dup
+store 12 // transferData/4991
+int 0
+extract_uint64
+store 37 // networkTokenPay/5034
+load 12 // transferData/4991
+extract 8 16
+dup
+store 11 // v5035
+int 0
+extract_uint64
+store 36 // amt0/5036
+load 11 // v5035
+int 8
+extract_uint64
+store 35 // nntok0/5037
+load 37 // networkTokenPay/5034
+callsub l22_LF_checkTxn_False
+// ^ CheckPay
+// at ./index.rsh:115:42:dot
+load 23 // tokenInfos/2981
+extract 17 17
+store 11 // tokInfo/5043
+load 23 // tokenInfos/2981
+load 11 // tokInfo/5043
+dup
+int 0
+extract_uint64
+load 36 // amt0/5036
++
+itob
+replace2 0
+replace2 17
+store 34 // tokInfos'/5048
+load 36 // amt0/5036
+load 29 // paymentToken/2939
+callsub l12_LF_checkTxn_True
+// ^ CheckPay
+// at ./index.rsh:115:42:dot
+byte base64()
+store 11 // v5177
+byte base64(AAAAAAAAFDk=)
+load 11 // v5177
+concat
+log // up to 8 bytes
+load 11 // v5177
+store 4 // GV_apiRet :: Null
+load 37 // networkTokenPay/5034
+// resource: R_Account
+load 33 // Admin/2933
+callsub l13_LF_makeTxn_False_False_False_True
+int 9
+bzero
+dup
+store 19 // initAcc/5191
+store 12 // res/5210
+int 0
+store 16 // arrIdx/5213
+l23_forTop:
+// for runs 2 times
+load 28 // tokens'/2949
+int 8
+load 16 // arrIdx/5213
+*
+int 8
+extract3
+btoi
+store 17 // elem/5212
+load 12 // res/5210
+int 1
+extract_uint64
+store 11 // searchIdx/5215
+byte base64(AA==)
+load 11 // searchIdx/5215
+int 1
++
+itob
+concat
+byte base64(AQ==)
+load 11 // searchIdx/5215
+itob
+concat
+load 12 // res/5210
+extract 0 1
+btoi
+load 17 // elem/5212
+load 35 // nntok0/5037
+==
+||
+select
+store 12 // res/5210
+load 16 // arrIdx/5213
+int 1
++
+dup
+store 16 // arrIdx/5213
+int 2
+<
+bnz l23_forTop // for runs 2 times
+l24_forEnd:
+load 19 // initAcc/5191
+store 11 // res/5228
+int 0
+store 13 // arrIdx/5231
+l25_forTop:
+// for runs 2 times
+load 28 // tokens'/2949
+int 8
+load 13 // arrIdx/5231
+*
+int 8
+extract3
+btoi
+store 14 // elem/5230
+load 11 // res/5228
+int 1
+extract_uint64
+store 16 // searchIdx/5233
+byte base64(AA==)
+load 16 // searchIdx/5233
+int 1
++
+itob
+concat
+byte base64(AQ==)
+load 16 // searchIdx/5233
+itob
+concat
+load 11 // res/5228
+extract 0 1
+btoi
+load 14 // elem/5230
+load 35 // nntok0/5037
+==
+||
+select
+store 11 // res/5228
+load 13 // arrIdx/5231
+int 1
++
+dup
+store 13 // arrIdx/5231
+int 2
+<
+bnz l25_forTop // for runs 2 times
+l26_forEnd:
+load 11 // res/5228
+int 1
+extract_uint64
+store 13 // tokIdx/5240
+load 36 // amt0/5036
+// resource: R_Asset
+load 35 // nntok0/5037
+load 33 // Admin/2933
+callsub l9_LF_makeTxn_False_False_True_True
+byte base64(AQ==)
+txn Sender
+concat
+load 25 // returnExpression/2974
+int 33
+extract_uint64
+int 1
++
+itob
+concat
+load 21 // v3028
+concat
+load 25 // returnExpression/2974
+extract 68 1
+concat
+byte base64(AQ==)
+concat
+load 20 // v3035
+concat
+byte base64(AQ==)
+concat
+load 25 // returnExpression/2974
+extract 95 8
+concat
+load 25 // returnExpression/2974
+extract 103 8
+concat
+load 25 // returnExpression/2974
+int 111
+extract_uint64
+int 1
++
+itob
+concat
+global Round
+load 34 // tokInfos'/5048
+load 13 // tokIdx/5240
+int 17
+*
+load 34 // tokInfos'/5048
+int 17
+load 13 // tokIdx/5240
+*
+int 17
+extract3
+load 34 // tokInfos'/5048
+int 17
+load 12 // res/5210
+int 1
+extract_uint64
+*
+int 17
+extract3
+int 0
+extract_uint64
+load 36 // amt0/5036
+-
+itob
+replace2 0
+replace3
+load 22 // netBalance/2982
+load 37 // networkTokenPay/5034
++
+load 37 // networkTokenPay/5034
+-
+store 22 // netBalance/2982
+store 23 // tokenInfos/2981
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+b _reachl_2
+_api_user_cancelOffer4:
+load 19 // .fork170.msg/3346
+int 1
+extract_uint64
+store 11 // offerId/5515
+// resource: R_Box
+byte base64()
+int 50
+bzero
+byte base64(AA==)
+load 11 // offerId/5515
+itob
+concat
+callsub l7_LF_mapRef
+dup
+store 19 // offerInfo/5516
+int 0
+getbyte
+int 1
+==
+assert
+// ^ Claim: Offer id doesn't exist!
+// at reach standard library:57:5:application
+// at ./index.rsh:314:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:312:39:application call to [unknown function] (defined at: ./index.rsh:312:39:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:312:39:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+int 8
+bzero
+load 27 // Admin/2953
+concat
+int 8
+bzero
+concat
+byte base64(AA==)
+concat
+byte base64(AA==)
+concat
+load 19 // offerInfo/5516
+callsub l21_LF_fromSome
+dup
+store 12 // data/5521
+extract 8 32
+store 40 // v5522
+txn Sender
+load 40 // v5522
+==
+assert
+// ^ Claim: Loan owner mismatch
+// at reach standard library:57:5:application
+// at ./index.rsh:316:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:312:39:application call to [unknown function] (defined at: ./index.rsh:312:39:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:312:39:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+load 12 // data/5521
+extract 48 1
+btoi
+store 39 // v5525
+load 12 // data/5521
+int 0
+extract_uint64
+store 38 // v5527
+load 23 // tokenInfos/2981
+extract 17 17
+int 0
+extract_uint64
+load 38 // v5527
+>=
+load 22 // netBalance/2982
+load 38 // v5527
+>=
+load 39 // v5525
+select
+assert
+// ^ Claim: Insufficient contract funds
+// at reach standard library:57:5:application
+// at ./index.rsh:317:12:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:312:39:application call to [unknown function] (defined at: ./index.rsh:312:39:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:312:39:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+byte base64()
+store 12 // v5807
+byte base64(AAAAAAAAFq8=)
+load 12 // v5807
+concat
+log // up to 8 bytes
+load 12 // v5807
+store 4 // GV_apiRet :: Null
+int 8
+bzero
+load 38 // v5527
+itob
+load 29 // paymentToken/2939
+itob
+concat
+concat
+load 38 // v5527
+itob
+int 8
+bzero
+load 29 // paymentToken/2939
+itob
+concat
+concat
+load 39 // v5525
+select
+dup
+store 34 // paymentAmount/5821
+int 0
+extract_uint64
+store 12 // v5823
+load 34 // paymentAmount/5821
+extract 8 16
+dup
+store 19 // v5824
+int 0
+extract_uint64
+store 37 // v5825
+load 19 // v5824
+int 8
+extract_uint64
+store 36 // v5826
+load 22 // netBalance/2982
+load 12 // v5823
+-
+store 35 // v5830
+load 12 // v5823
+// resource: R_Account
+load 40 // v5522
+callsub l13_LF_makeTxn_False_False_False_True
+int 9
+bzero
+dup
+store 34 // initAcc/5831
+store 19 // res/5850
+int 0
+store 16 // arrIdx/5853
+l27_forTop:
+// for runs 2 times
+load 28 // tokens'/2949
+int 8
+load 16 // arrIdx/5853
+*
+int 8
+extract3
+btoi
+store 17 // elem/5852
+load 19 // res/5850
+int 1
+extract_uint64
+store 12 // searchIdx/5855
+byte base64(AA==)
+load 12 // searchIdx/5855
+int 1
++
+itob
+concat
+byte base64(AQ==)
+load 12 // searchIdx/5855
+itob
+concat
+load 19 // res/5850
+extract 0 1
+btoi
+load 17 // elem/5852
+load 36 // v5826
+==
+||
+select
+store 19 // res/5850
+load 16 // arrIdx/5853
+int 1
++
+dup
+store 16 // arrIdx/5853
+int 2
+<
+bnz l27_forTop // for runs 2 times
+l28_forEnd:
+load 34 // initAcc/5831
+store 12 // res/5868
+int 0
+store 13 // arrIdx/5871
+l29_forTop:
+// for runs 2 times
+load 28 // tokens'/2949
+int 8
+load 13 // arrIdx/5871
+*
+int 8
+extract3
+btoi
+store 14 // elem/5870
+load 12 // res/5868
+int 1
+extract_uint64
+store 16 // searchIdx/5873
+byte base64(AA==)
+load 16 // searchIdx/5873
+int 1
++
+itob
+concat
+byte base64(AQ==)
+load 16 // searchIdx/5873
+itob
+concat
+load 12 // res/5868
+extract 0 1
+btoi
+load 14 // elem/5870
+load 36 // v5826
+==
+||
+select
+store 12 // res/5868
+load 13 // arrIdx/5871
+int 1
++
+dup
+store 13 // arrIdx/5871
+int 2
+<
+bnz l29_forTop // for runs 2 times
+l30_forEnd:
+load 12 // res/5868
+int 1
+extract_uint64
+store 13 // tokIdx/5880
+load 23 // tokenInfos/2981
+load 13 // tokIdx/5880
+int 17
+*
+load 23 // tokenInfos/2981
+int 17
+load 13 // tokIdx/5880
+*
+int 17
+extract3
+load 23 // tokenInfos/2981
+int 17
+load 19 // res/5850
+int 1
+extract_uint64
+*
+int 17
+extract3
+int 0
+extract_uint64
+load 37 // v5825
+-
+itob
+replace2 0
+replace3
+store 12 // tokInfos'/5884
+load 37 // v5825
+// resource: R_Asset
+load 36 // v5826
+load 40 // v5522
+callsub l9_LF_makeTxn_False_False_True_True
+int 26100
+byte base64(AA==)
+load 11 // offerId/5515
+itob
+concat
+l31_LF_mapDel:
+box_del
+int 0
+cover 2
+select
+l40_LF_mbrSub:
+load 7 // GV_mbrSub :: UInt
++
+store 7 // GV_mbrSub :: UInt
+load 25 // returnExpression/2974
+extract 0 33
+store 19 // v5885
+load 25 // returnExpression/2974
+extract 68 1
+btoi
+store 18 // v5888
+load 25 // returnExpression/2974
+extract 69 1
+btoi
+store 17 // v5889
+load 25 // returnExpression/2974
+extract 94 1
+btoi
+store 16 // v5891
+load 25 // returnExpression/2974
+int 95
+extract_uint64
+store 15 // v5892
+load 25 // returnExpression/2974
+int 103
+extract_uint64
+store 14 // v5893
+load 25 // returnExpression/2974
+int 111
+extract_uint64
+store 13 // v5894
+load 25 // returnExpression/2974
+int 33
+extract_uint64
+int 1
+-
+store 11 // v5896
+load 39 // v5525
+bz l32_ifF
+load 19 // v5885
+load 11 // v5896
+itob
+concat
+load 21 // v3028
+concat
+load 18 // v5888
+itob
+substring 7 8
+concat
+load 17 // v5889
+itob
+substring 7 8
+concat
+load 20 // v3035
+concat
+load 16 // v5891
+itob
+substring 7 8
+concat
+load 15 // v5892
+load 38 // v5527
+-
+itob
+concat
+load 14 // v5893
+itob
+concat
+load 13 // v5894
+itob
+concat
+global Round
+load 12 // tokInfos'/5884
+load 35 // v5830
+store 22 // netBalance/2982
+store 23 // tokenInfos/2981
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+b _reachl_2
+_api_user_makeOffer4:
+load 19 // .fork170.msg/3346
+extract 1 9
+dup
+store 11 // v6064
+int 0
+extract_uint64
+store 13 // amount/6065
+load 25 // returnExpression/2974
+extract 69 1
+btoi
+assert
+// ^ Claim: Contract is frozen
+// at reach standard library:57:5:application
+// at ./index.rsh:118:14:application call to "check" (defined at: reach standard library:49:32:function exp)
+// at ./index.rsh:270:16:application call to "runChecks" (defined at: ./index.rsh:117:28:function exp)
+// at ./index.rsh:269:67:application call to [unknown function] (defined at: ./index.rsh:269:67:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:269:67:function exp)
+// at ./index.rsh:115:42:application call to [unknown function] (defined at: ./index.rsh:115:42:function exp)
+// at ./index.rsh:138:14:application call to [unknown function] (defined at: ./index.rsh:138:14:function exp)
+load 32 // config_as_object/2934
+extract 18 1
+btoi
+load 11 // v6064
+extract 8 1
+btoi
+||
+store 12 // isNetworkToken/6071
+int 8
+bzero
+load 13 // amount/6065
+itob
+load 29 // paymentToken/2939
+itob
+concat
+concat
+load 13 // amount/6065
+itob
+int 8
+bzero
+load 29 // paymentToken/2939
+itob
+concat
+concat
+load 12 // isNetworkToken/6071
+select
+dup
+store 15 // v6077
+int 0
+extract_uint64
+store 11 // networkTokenPay/6078
+load 15 // v6077
+extract 8 16
+int 0
+extract_uint64
+store 14 // amt0/6080
+load 22 // netBalance/2982
+load 11 // networkTokenPay/6078
++
+store 35 // v6086
+load 11 // networkTokenPay/6078
+callsub l22_LF_checkTxn_False
+// ^ CheckPay
+// at ./index.rsh:115:42:dot
+load 23 // tokenInfos/2981
+extract 17 17
+store 11 // tokInfo/6087
+load 23 // tokenInfos/2981
+load 11 // tokInfo/6087
+dup
+int 0
+extract_uint64
+load 14 // amt0/6080
++
+itob
+replace2 0
+replace2 17
+store 34 // tokInfos'/6092
+load 14 // amt0/6080
+load 29 // paymentToken/2939
+callsub l12_LF_checkTxn_True
+// ^ CheckPay
+// at ./index.rsh:115:42:dot
+load 25 // returnExpression/2974
+int 111
+extract_uint64
+store 11 // v6441
+load 13 // amount/6065
+itob
+txn Sender
+concat
+load 11 // v6441
+itob
+concat
+load 12 // isNetworkToken/6071
+itob
+substring 7 8
+concat
+byte base64(AA==)
+concat
+store 14 // v6443
+// resource: R_Box
+int 26100
+byte base64(AA==)
+load 11 // v6441
+itob
+concat
+load 14 // v6443
+callsub l33_LF_mapSet
+byte base64(AAAAAAAAGSs=)
+load 14 // v6443
+concat
+log // up to 58 bytes
+load 14 // v6443
+store 4 // GV_apiRet :: Null
+load 25 // returnExpression/2974
+extract 0 33
+store 19 // v6459
+load 25 // returnExpression/2974
+extract 68 1
+btoi
+store 18 // v6462
+load 25 // returnExpression/2974
+extract 94 1
+btoi
+store 17 // v6465
+load 25 // returnExpression/2974
+int 95
+extract_uint64
+store 16 // v6466
+load 25 // returnExpression/2974
+int 103
+extract_uint64
+store 15 // v6467
+load 11 // v6441
+int 1
++
+store 14 // v6470
+load 25 // returnExpression/2974
+int 33
+extract_uint64
+int 1
++
+store 11 // v6472
+load 12 // isNetworkToken/6071
+bz l34_ifF
+load 19 // v6459
+load 11 // v6472
+itob
+concat
+load 21 // v3028
+concat
+load 18 // v6462
+itob
+substring 7 8
+concat
+byte base64(AQ==)
+concat
+load 20 // v3035
+concat
+load 17 // v6465
+itob
+substring 7 8
+concat
+load 16 // v6466
+load 13 // amount/6065
++
+itob
+concat
+load 15 // v6467
+itob
+concat
+load 14 // v6470
+itob
+concat
+global Round
+load 34 // tokInfos'/6092
+load 35 // v6086
+store 22 // netBalance/2982
+store 23 // tokenInfos/2981
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+b _reachl_2
+_reacha_info_config:
+load 1 // GV_currentStep :: UInt
+int 5
+<
+bz l2_ifF
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./index.rsh:49:11:property binding
+callsub l3_LF_svsLoad_3
+load 13 // v6481
+store 4 // GV_apiRet :: Null
+apiReturn_check:
+txn OnCompletion
+int NoOp
+==
+assert
+// checked on completion
+b apiReturn_noCheck
+_reacha_info_loanTerms:
+load 1 // GV_currentStep :: UInt
+int 5
+<
+bz l5_ifF
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./index.rsh:50:14:property binding
+callsub l3_LF_svsLoad_3
+load 12 // v6488
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+_reacha_info_offer:
+load 1 // GV_currentStep :: UInt
+int 5
+<
+bz l6_ifF
+load 1 // GV_currentStep :: UInt
+int 3
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./index.rsh:51:10:property binding
+callsub l3_LF_svsLoad_3
+// resource: R_Box
+byte base64()
+int 50
+bzero
+byte base64(AA==)
+load 11 // v10510
+itob
+concat
+callsub l7_LF_mapRef
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+_reacha_user_acceptLoan:
+byte base64(AAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=)
+store 11 // v10560
+b _reachi_4
+_reacha_user_cancelOffer:
+int 8
+bzero
+byte base64(BA==)
+load 11 // v10538
+itob
+concat
+int 42
+bzero
+concat
+concat
+store 11 // v10560
+b _reachi_4
+_reacha_user_makeOffer:
+int 8
+bzero
+byte base64(BQ==)
+load 11 // v10544
+concat
+int 41
+bzero
+concat
+concat
+store 11 // v10560
+b _reachi_4
+_reachi_0:
+txn Sender
+store 33 // Admin/2933
+load 11 // v10551
+int 0
+extract_uint64
+store 12 // v10550
+load 11 // v10551
+extract 8 27
+store 32 // config_as_object/2934
+load 11 // v10551
+int 35
+extract_uint64
+store 31 // deposit_nft/2935
+load 11 // v10551
+extract 43 27
+store 15 // config/2936
+load 11 // v10551
+extract 70 24
+store 14 // loanTerms/2937
+load 11 // v10551
+extract 94 32
+store 30 // ADMIN_WALLET/2938
+load 11 // v10551
+int 126
+extract_uint64
+store 29 // paymentToken/2939
+byte base64(OFtilQ==)
+load 12 // v10550
+itob
+concat
+load 32 // config_as_object/2934
+concat
+load 31 // deposit_nft/2935
+itob
+concat
+load 15 // config/2936
+concat
+load 14 // loanTerms/2937
+concat
+load 30 // ADMIN_WALLET/2938
+concat
+load 29 // paymentToken/2939
+itob
+concat
+log // up to 138 bytes
+// ^ log: "_reach_e0" [v10550,config_as_object/2934,deposit_nft/2935,config/2936,loanTerms/2937,ADMIN_WALLET/2938,paymentToken/2939] "_reach_e0(uint64,(byte,uint64,uint64,byte,byte,uint64),uint64,(byte,uint64,uint64,byte,byte,uint64),(uint64,uint64,uint64),address,uint64)"
+load 12 // v10550
+callsub l8_LF_timeCheck
+int 17
+bzero
+dup
+store 11 // initialInfo/2904
+dup
+concat
+dup
+store 12 // tokInfos/2905
+dup
+extract 0 17
+int 8
+bzero
+replace2 0
+replace2 0
+dup
+store 11 // tokInfos'/2944
+dup
+extract 17 17
+int 8
+bzero
+replace2 0
+replace2 17
+store 13 // tokInfos'/2948
+int 16
+bzero
+load 31 // deposit_nft/2935
+itob
+replace2 0
+load 29 // paymentToken/2939
+itob
+replace2 8
+store 28 // tokens'/2949
+load 29 // paymentToken/2939
+load 31 // deposit_nft/2935
+!=
+assert
+// ^ Claim: non-network tokens distinct
+// at ./index.rsh:83:5:dot
+int 100000
+callsub l1_LF_mbrAdd
+int 0
+// resource: R_Asset
+load 31 // deposit_nft/2935
+global CurrentApplicationAddress
+callsub l9_LF_makeTxn_False_False_True_True
+int 100000
+callsub l1_LF_mbrAdd
+int 0
+// resource: R_Asset
+load 29 // paymentToken/2939
+global CurrentApplicationAddress
+callsub l9_LF_makeTxn_False_False_True_True
+l10_LF_svsDump_1:
+load 33 // Admin/2933
+load 32 // config_as_object/2934
+concat
+load 31 // deposit_nft/2935
+itob
+concat
+load 15 // config/2936
+concat
+load 14 // loanTerms/2937
+concat
+load 30 // ADMIN_WALLET/2938
+concat
+load 29 // paymentToken/2939
+itob
+concat
+load 13 // tokInfos'/2948
+concat
+load 28 // tokens'/2949
+concat
+int 167
+bzero
+concat
+int 1
+global Round
+b updateStateNoOp
+_reachi_1:
+txn Sender
+store 27 // Admin/2953
+int 1
+load 1 // GV_currentStep :: UInt
+==
+assert
+l11_LF_svsLoad_1:
+dup
+extract 0 32
+store 33 // Admin/2933
+dup
+extract 32 27
+store 32 // config_as_object/2934
+dup
+int 59
+extract_uint64
+store 31 // deposit_nft/2935
+dup
+extract 67 27
+store 15 // config/2936
+dup
+extract 94 24
+store 14 // loanTerms/2937
+dup
+extract 118 32
+store 30 // ADMIN_WALLET/2938
+dup
+int 150
+extract_uint64
+store 29 // paymentToken/2939
+dup
+extract 158 34
+store 13 // tokInfos'/2948
+extract 192 16
+store 28 // tokens'/2949
+load 11 // v10554
+btoi
+store 12 // v10553
+byte base64(1RUZFA==)
+load 12 // v10553
+itob
+concat
+log // up to 12 bytes
+// ^ log: "_reach_e1" [v10553] "_reach_e1(uint64)"
+load 12 // v10553
+callsub l8_LF_timeCheck
+load 32 // config_as_object/2934
+int 1
+extract_uint64
+store 26 // v2956
+load 13 // tokInfos'/2948
+extract 0 17
+store 12 // tokInfo/2957
+load 13 // tokInfos'/2948
+load 12 // tokInfo/2957
+dup
+int 0
+extract_uint64
+load 26 // v2956
++
+itob
+replace2 0
+replace2 0
+store 11 // tokInfos'/2962
+load 26 // v2956
+load 31 // deposit_nft/2935
+callsub l12_LF_checkTxn_True
+// ^ CheckPay
+// at ./index.rsh:93:5:dot
+load 33 // Admin/2933
+load 27 // Admin/2953
+==
+assert
+// ^ Claim: sender correct
+// at ./index.rsh:93:5:dot
+int 41
+bzero
+load 15 // config/2936
+concat
+byte base64(AQ==)
+concat
+byte base64(AA==)
+concat
+load 14 // loanTerms/2937
+concat
+byte base64(AA==)
+concat
+int 8
+bzero
+concat
+load 11 // tokInfos'/2962
+extract 17 17
+extract 0 8
+concat
+int 8
+bzero
+concat
+global Round
+load 11 // tokInfos'/2962
+int 0
+store 22 // netBalance/2982
+store 23 // tokenInfos/2981
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+b _reachl_2
+_reachi_3:
+int 3
+load 1 // GV_currentStep :: UInt
+==
+assert
+callsub l3_LF_svsLoad_3
+load 11 // v10557
+btoi
+store 12 // v10556
+byte base64(1Axs1g==)
+load 12 // v10556
+itob
+concat
+log // up to 12 bytes
+// ^ log: "_reach_e3" [v10556] "_reach_e3(uint64)"
+load 12 // v10556
+callsub l8_LF_timeCheck
+load 33 // Admin/2933
+txn Sender
+==
+assert
+// ^ Claim: sender correct
+// at ./index.rsh:382:5:dot
+load 22 // netBalance/2982
+// resource: R_Account
+load 33 // Admin/2933
+callsub l13_LF_makeTxn_False_False_False_True
+load 23 // tokenInfos/2981
+extract 0 17
+dup
+store 12 // tokInfo/6503
+int 0
+extract_uint64
+dup
+store 11 // v6504
+// resource: R_Asset
+load 31 // deposit_nft/2935
+load 33 // Admin/2933
+callsub l9_LF_makeTxn_False_False_True_True
+load 23 // tokenInfos/2981
+load 12 // tokInfo/6503
+load 11 // v6504
+dup
+-
+itob
+replace2 0
+replace2 0
+extract 17 17
+int 0
+extract_uint64
+// resource: R_Asset
+load 29 // paymentToken/2939
+load 33 // Admin/2933
+callsub l9_LF_makeTxn_False_False_True_True
+// resource: R_Account
+int 0
+load 29 // paymentToken/2939
+global CurrentApplicationAddress
+global CreatorAddress
+callsub l14_LF_makeTxn_False_True_True_True
+int 0
+load 31 // deposit_nft/2935
+global CurrentApplicationAddress
+global CreatorAddress
+callsub l14_LF_makeTxn_False_True_True_True
+updateStateHalt:
+txn OnCompletion
+int DeleteApplication
+==
+assert
+// checked on completion
+callsub l38_LF_updateMbr
+// resource: R_Account
+int 0
+global CurrentApplicationAddress
+global CreatorAddress
+callsub l39_LF_makeTxn_False_True_False_True
+b updateState
+_reachp_0:
+callsub l0_LF_wasntMeth
+int 100000
+callsub l1_LF_mbrAdd
+txna ApplicationArgs 1
+store 11 // v10551
+b _reachi_0
+_reachp_1:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v10554
+b _reachi_1
+_reachp_3:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v10557
+b _reachi_3
+_reachp_4:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v10560
+b _reachi_4
+alloc:
+int 0
+txn GlobalNumUint
+==
+assert
+int 4
+txn GlobalNumByteSlice
+==
+assert
+int 0
+txn LocalNumUint
+==
+assert
+int 0
+txn LocalNumByteSlice
+==
+assert
+callsub l0_LF_wasntMeth
+int 375
+bzero
+int 0
+int 0
+b updateStateNoOp
+info_config___byGkkeOH38GbJGT_idYZt6MMVPy3mZlLclHQtkaCbK6Ik_:
+b _reacha_info_config
+info_loanTerms__9k2AchOOCzDMqAww4KWDk6Biqg_4DjENGRITiEcXUB0_:
+b _reacha_info_loanTerms
+info_offer_uint64y6BX_7rXaB6kHC79JaoAcR5fcyJEwFqGu6YtChhSQ4_:
+txna ApplicationArgs 1
+btoi
+store 11 // v10510
+b _reacha_info_offer
+l15_Admin_api_acceptOffer0_170:
+b _api_Admin_api_acceptOffer4
+l16_Admin_api_cancelLoanOfferandWithdrawCollateral0_170:
+b _api_Admin_api_cancelLoanOfferandWithdrawCollateral4
+l17_Admin_api_updateLoanTerms_info0_170:
+b _api_Admin_api_updateLoanTerms_info4
+l18_user_acceptLoan0_170:
+b _api_user_acceptLoan4
+l19_user_cancelOffer0_170:
+b _api_user_cancelOffer4
+l20_user_makeOffer0_170:
+b _api_user_makeOffer4
+l2_ifF:
+load 1 // GV_currentStep :: UInt
+int 5
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./index.rsh:49:11:property binding
+callsub l4_LF_svsLoad_5
+load 21 // v3028
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+l32_ifF:
+load 19 // v5885
+load 11 // v5896
+itob
+concat
+load 21 // v3028
+concat
+load 18 // v5888
+itob
+substring 7 8
+concat
+load 17 // v5889
+itob
+substring 7 8
+concat
+load 20 // v3035
+concat
+load 16 // v5891
+itob
+substring 7 8
+concat
+load 15 // v5892
+itob
+concat
+load 14 // v5893
+load 38 // v5527
+-
+itob
+concat
+load 13 // v5894
+itob
+concat
+global Round
+load 12 // tokInfos'/5884
+load 35 // v5830
+store 22 // netBalance/2982
+store 23 // tokenInfos/2981
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+b _reachl_2
+l34_ifF:
+load 19 // v6459
+load 11 // v6472
+itob
+concat
+load 21 // v3028
+concat
+load 18 // v6462
+itob
+substring 7 8
+concat
+byte base64(AQ==)
+concat
+load 20 // v3035
+concat
+load 17 // v6465
+itob
+substring 7 8
+concat
+load 16 // v6466
+itob
+concat
+load 15 // v6467
+load 13 // amount/6065
++
+itob
+concat
+load 14 // v6470
+itob
+concat
+global Round
+load 34 // tokInfos'/6092
+load 35 // v6086
+store 22 // netBalance/2982
+store 23 // tokenInfos/2981
+store 24 // thisConsensusTime/2975
+store 25 // returnExpression/2974
+b _reachl_2
+l35_ifF:
+load 25 // returnExpression/2974
+extract 41 27
+store 13 // v6481
+load 25 // returnExpression/2974
+extract 70 24
+store 12 // v6488
+l37_LF_svsDump_3:
+load 33 // Admin/2933
+load 31 // deposit_nft/2935
+itob
+concat
+load 29 // paymentToken/2939
+itob
+concat
+load 23 // tokenInfos/2981
+concat
+load 22 // netBalance/2982
+itob
+concat
+load 13 // v6481
+concat
+load 12 // v6488
+concat
+int 234
+bzero
+concat
+int 3
+global Round
+b updateStateNoOp
+l41_boxSet:
+pop
+swap
+box_put
+pop
+retsub
+l42_LF_makeTxnK_False_True:
+int 0
+itxn_field Fee
+int pay
+itxn_field TypeEnum
+itxn_field Receiver
+itxn_field Amount
+itxn_submit
+retsub
+l43_LF_makeTxnK_True_True:
+int 0
+itxn_field Fee
+int axfer
+itxn_field TypeEnum
+itxn_field AssetReceiver
+itxn_field XferAsset
+itxn_field AssetAmount
+itxn_submit
+retsub
+l5_ifF:
+load 1 // GV_currentStep :: UInt
+int 5
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./index.rsh:50:14:property binding
+callsub l4_LF_svsLoad_5
+load 20 // v3035
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+l6_ifF:
+load 1 // GV_currentStep :: UInt
+int 5
+==
+assert
+// ^ Claim: Incorrect state: not leaf
+// at ./index.rsh:51:10:property binding
+callsub l4_LF_svsLoad_5
+// resource: R_Box
+byte base64()
+int 50
+bzero
+byte base64(AA==)
+load 11 // v10510
+itob
+concat
+callsub l7_LF_mapRef
+store 4 // GV_apiRet :: Null
+b apiReturn_check
+updateMbr_eq:
+pop
+retsub
+updateMbr_neg:
+swap
+-
+dup
+store 6 // GV_mbrAdd :: UInt
+global CreatorAddress
+callsub l13_LF_makeTxn_False_False_False_True
+retsub
+updateMbr_pos_eq:
+-
+dup
+bz updateMbr_eq
+dup
+store 6 // GV_mbrAdd :: UInt
+callsub l22_LF_checkTxn_False
+retsub
+user_acceptLoan_NCdEOSoQGjH8uWz8tohdlpLpYrKleLr7N0TuOToHItM_:
+b _reacha_user_acceptLoan
+user_cancelOffer371W2bghpVJHrTgtKabUUBbNX6y0yu3t6Yo41gp_VE8_:
+txna ApplicationArgs 1
+btoi
+store 11 // v10538
+b _reacha_user_cancelOffer
+user_makeOffer__U6UScaHTkR_2uCQRbhAUgk5unjlsZrteLFomP8lt3BA_:
+txna ApplicationArgs 1
+store 11 // v10544
+b _reacha_user_makeOffer
+l9_LF_makeTxn_False_False_True_True:
+itxn_begin
+b l43_LF_makeTxnK_True_True
+l0_LF_wasntMeth:
+int 1
+store 3 // GV_wasntMeth :: Bool
+retsub
+l8_LF_timeCheck:
+dup
+int 0
+==
+swap
+load 2 // GV_currentTime :: UInt
+==
+||
+assert
+retsub
+l7_LF_mapRef:
+box_get
+dup
+itob
+substring 7 8
+bury 4
+select
+concat
+retsub
+l4_LF_svsLoad_5:
+dup
+extract 0 32
+store 33 // Admin/2933
+dup
+extract 32 27
+store 32 // config_as_object/2934
+dup
+int 59
+extract_uint64
+store 31 // deposit_nft/2935
+dup
+extract 67 32
+store 30 // ADMIN_WALLET/2938
+dup
+int 99
+extract_uint64
+store 29 // paymentToken/2939
+dup
+extract 107 16
+store 28 // tokens'/2949
+dup
+extract 123 32
+store 27 // Admin/2953
+dup
+int 155
+extract_uint64
+store 26 // v2956
+dup
+extract 163 119
+store 25 // returnExpression/2974
+dup
+int 282
+int 34
+extract3
+store 23 // tokenInfos/2981
+dup
+int 316
+extract_uint64
+store 22 // netBalance/2982
+dup
+int 324
+int 27
+extract3
+store 21 // v3028
+int 351
+int 24
+extract3
+store 20 // v3035
+retsub
+l3_LF_svsLoad_3:
+dup
+extract 0 32
+store 33 // Admin/2933
+dup
+int 32
+extract_uint64
+store 31 // deposit_nft/2935
+dup
+int 40
+extract_uint64
+store 29 // paymentToken/2939
+dup
+extract 48 34
+store 23 // tokenInfos/2981
+dup
+int 82
+extract_uint64
+store 22 // netBalance/2982
+dup
+extract 90 27
+store 13 // v6481
+extract 117 24
+store 12 // v6488
+retsub
+l1_LF_mbrAdd:
+load 6 // GV_mbrAdd :: UInt
++
+store 6 // GV_mbrAdd :: UInt
+retsub
+l13_LF_makeTxn_False_False_False_True:
+itxn_begin
+b l42_LF_makeTxnK_False_True
+l22_LF_checkTxn_False:
+// resource: R_Txn
+txn GroupIndex
+load 0 // GV_txnCounter :: UInt
+int 1
++
+dup
+store 0 // GV_txnCounter :: UInt
+-
+dupn 2
+gtxns Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxns TypeEnum
+int pay
+==
+assert
+gtxns Amount
+==
+assert
+retsub
+l12_LF_checkTxn_True:
+// resource: R_Txn
+txn GroupIndex
+load 0 // GV_txnCounter :: UInt
+int 1
++
+dup
+store 0 // GV_txnCounter :: UInt
+-
+dupn 3
+gtxns AssetReceiver
+global CurrentApplicationAddress
+==
+assert
+gtxns TypeEnum
+int axfer
+==
+assert
+gtxns XferAsset
+uncover 2
+==
+assert
+gtxns AssetAmount
+==
+assert
+retsub
+l38_LF_updateMbr:
+load 6 // GV_mbrAdd :: UInt
+load 7 // GV_mbrSub :: UInt
+dup2
+>=
+bz updateMbr_neg
+b updateMbr_pos_eq
+l21_LF_fromSome:
+dup
+extract 1 0
+swap
+int 0
+getbyte
+select
+retsub
+l14_LF_makeTxn_False_True_True_True:
+itxn_begin
+itxn_field AssetCloseTo
+b l43_LF_makeTxnK_True_True
+l39_LF_makeTxn_False_True_False_True:
+itxn_begin
+itxn_field CloseRemainderTo
+b l42_LF_makeTxnK_False_True
+l33_LF_mapSet:
+swap
+dup
+box_len
+bnz l41_boxSet
+dig 3
+callsub l1_LF_mbrAdd
+b l41_boxSet

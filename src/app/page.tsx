@@ -1,13 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import Allpage from "./Components/page";
 import Link from "next/link";
 import { FaBell } from "react-icons/fa";
 import { BiFilter } from "react-icons/bi";
 import { IoSearch } from "react-icons/io5";
 import DropdownMenu from "./DropdownMenu/page";
 import DropdownMenuHamburger from "./Hamburger/page";
-import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
 import Cards from "./Cards/page";
 
 const HomePage = () => {
