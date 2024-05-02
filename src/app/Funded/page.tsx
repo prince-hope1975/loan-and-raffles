@@ -9,7 +9,7 @@ import DropdownMenuHamburger from "../Hamburger/page";
 
 
 
-const MyLoansPage = () => {
+const FundedPage = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const handleResize = () => {
@@ -123,4 +123,4 @@ const MyLoansPage = () => {
   );
 };
 
-export default MyLoansPage;
+export default FundedPage;

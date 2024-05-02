@@ -25,7 +25,7 @@ const DropdownMenu = () => {
       {isOpen && (
         <ul
           className="absolute top-12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white 
-        shadow-md rounded-md py-2 px-12 mt-1"
+        shadow-md rounded-md py-2  px-12 mt-1 md:mt-2"
         >
           <li className="text-center text-black">
             <Link href="#">Connect</Link>

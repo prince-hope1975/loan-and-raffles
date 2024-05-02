@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import Link from "next/link";
 import { FaBell } from "react-icons/fa";

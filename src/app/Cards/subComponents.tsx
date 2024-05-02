@@ -20,7 +20,7 @@ const SubCard: React.FC<SubCardProps> = ({
   description3,
 }) => {
   return (
-    <div className=" flex justify-center gap-6 rounded-md pt-1 bg-gray-700 mt-4">
+    <div className=" flex justify-center gap-6 rounded-md px-10 bg-gray-700 mt-4">
       <div className="mb-4  ">
         <h1 className="text-lg font-semibold mb-1">{title1}</h1>
         <p className="text-white">{description1}</p>
